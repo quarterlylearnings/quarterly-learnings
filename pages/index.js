@@ -17,7 +17,7 @@ export default function Home() {
                         <h1 className="text-4xl font-serif mb-2 text-wrap">
                             Empower Your Team with Cutting-Edge Tech Skills.
                         </h1>
-                        <Image src={instructionRear} alt={"Brandon Campbell-Kearns, seen from the rear of a room, teaching digital skills to a group of professionals, with a focus on web development."} />
+                        <Image src={instructionRear} width={800} height={500} alt={"Brandon Campbell-Kearns, seen from the rear of a room, teaching digital skills to a group of professionals, with a focus on web development."} />
                     </div>
                     <div>
 
@@ -25,10 +25,8 @@ export default function Home() {
                         Unleash creativity and innovation by learning to build
                         and automate with the latest software tools.
                     </h6>
-                    <Link href="/contact">
-                        <p className="bg-primary text-tertiary px-6 py-2 rounded cursor-pointer">
-                            Schedule your workshop.
-                        </p>
+                    <Link href="/contact" className="inline-block bg-primary text-tertiary px-6 py-2 rounded cursor-pointer">
+                        Schedule your workshop.
                     </Link>
                     </div>
                 </div>
