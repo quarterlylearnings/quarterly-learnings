@@ -15,14 +15,14 @@ export default function Footer() {
           <li>
             <Link href="" className="text-accent hover:underline">Custom Training</Link>
           </li>
-        </ul> 
+        </ul>
       </div>
 
       <div className="col-span-full sm:col-span-1 p-4 bg-secondary rounded">
         <h3 className="text-xl font-serif mb-2">Quarterly Learnings</h3>
         <ul className="space-y-2">
-          <li><Link href="/"><a className="text-accent hover:underline hidden">About Us</a></Link></li>
-          <li><Link href="/contact"><a className="text-accent hover:underline">Contact</a></Link></li>
+          <li><Link href="/" className="text-accent hover:underline hidden">About Us</Link></li>
+          <li><Link href="/contact" className="text-accent hover:underline">Contact</Link></li>
         </ul>
       </div>
 

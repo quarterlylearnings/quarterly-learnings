@@ -22,9 +22,7 @@ export default function Blog({ allPostsData }) {
                 {allPostsData.map((post) => (
                     <article className="bg-tertiary p-4 rounded" key={post.id}>
                         <h2 className="text-2xl font-serif text-white mb-2">
-                            <Link href={`/posts/${post.id}`}>
-                                <a className="hover:underline">{post.title}</a>
-                            </Link>
+                            <Link href={`/posts/${post.id}`} className="hover:underline">{post.title}</Link>
                         </h2>
                         <p className="text-sm text-accent mb-2">{new Date(post.dateCreated).toDateString()}</p>
                     </article>

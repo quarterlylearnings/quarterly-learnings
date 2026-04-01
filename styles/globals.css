@@ -1,6 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-primary: #80A1D4;
+  --color-secondary: #355834;
+  --color-tertiary: #14281D;
+  --color-accent: #FFDB00;
+  --color-neutral: #6E633D;
+
+  --font-family-serif: 'Lora', serif;
+  --font-family-sans: 'Manrope', sans-serif;
+}
 
 html,
 body {

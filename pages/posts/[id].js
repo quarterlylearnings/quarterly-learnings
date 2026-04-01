@@ -34,9 +34,7 @@ export default function Post({postData}) {
                     <p className="text-sm text-accent mb-4">{ new Date(postData.dateCreated).toDateString() }</p>
                     <div className="prose prose-zinc" dangerouslySetInnerHTML={{ __html: postData.postHtml }} />    
                     <p className="mt-8">
-                        <Link href="/blog">
-                            <a className="text-primary hover:underline">&larr; Back</a>
-                        </Link>
+                        <Link href="/blog" className="text-primary hover:underline">&larr; Back</Link>
                     </p>
                 </article>
             </main>

@@ -17,7 +17,7 @@ export default function Home() {
                         <h1 className="text-4xl font-serif mb-2 text-wrap">
                             Empower Your Team with Cutting-Edge Tech Skills.
                         </h1>
-                        <Image src={instructionRear} alt={"Brandon Campbell-Kearns, seen from the rear of a room, teaching digital skills to a group of professionals, with a focus on web development."} />
+                        <Image src={instructionRear} width={800} height={500} className="mx-auto" alt={"Brandon Campbell-Kearns, seen from the rear of a room, teaching digital skills to a group of professionals, with a focus on web development."} />
                     </div>
                     <div>
 
@@ -25,10 +25,8 @@ export default function Home() {
                         Unleash creativity and innovation by learning to build
                         and automate with the latest software tools.
                     </h6>
-                    <Link href="/contact">
-                        <p className="bg-primary text-tertiary px-6 py-2 rounded cursor-pointer">
-                            Schedule your workshop.
-                        </p>
+                    <Link href="/contact" className="inline-block bg-primary text-tertiary px-6 py-2 rounded cursor-pointer">
+                        Schedule your workshop.
                     </Link>
                     </div>
                 </div>
@@ -48,6 +46,7 @@ export default function Home() {
                     src={curriculumDesign}
                     width={400}
                     height={300}
+                    className="mx-auto"
                     alt={""}
                 />
             </section>
@@ -61,7 +60,7 @@ export default function Home() {
                         1/2 day to multi-day workshops to improve your skills
                     </p>
                 </aside>
-                <Image src={instruction} width={400} height={300} alt={""} />
+                <Image src={instruction} width={400} height={300} className="mx-auto" alt={""} />
             </section>
 
             <section className="col-span-full sm:col-span-3 p-4 bg-tertiary text-white text-center rounded">
@@ -73,7 +72,7 @@ export default function Home() {
                         Enroll your team in a skill-based workshop
                     </p>
                 </aside>
-                <Image src={progDevOps} width={400} height={300} alt={""} />
+                <Image src={progDevOps} width={400} height={300} className="mx-auto" alt={""} />
             </section>
 
       <div className={styles.testimonials}>
