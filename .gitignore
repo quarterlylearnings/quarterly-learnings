@@ -38,6 +38,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# internal docs
-PROJECT_CONTEXT.md
-learnings.md
+# internal llm context and learnings
+/llm_context
+
