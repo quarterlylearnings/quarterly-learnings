@@ -1,7 +1,16 @@
+import { Navigation } from '@/components/Navigation/Navigation'
+import { Footer } from '@/components/Footer/Footer'
+
 export default function SiteLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return <main>{children}</main>
+  return (
+    <>
+      <Navigation />
+      <main>{children}</main>
+      <Footer />
+    </>
+  )
 }
