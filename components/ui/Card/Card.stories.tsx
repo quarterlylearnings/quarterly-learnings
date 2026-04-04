@@ -53,7 +53,7 @@ export const Interactive: Story = {
       </Card.Header>
       <Card.Body>
         <p className="font-sans text-body text-neutral">
-          Practical AI for small businesses. Click me — I'm fully interactive.
+          Practical AI for small businesses. Click me — I&apos;m fully interactive.
         </p>
       </Card.Body>
     </Card>
