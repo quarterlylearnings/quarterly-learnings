@@ -103,6 +103,7 @@ function CardFooter({
   )
 }
 
+export { CardBody, CardFooter, CardHeader, CardMedia }
 export const Card = Object.assign(CardRoot, {
   Media: CardMedia,
   Header: CardHeader,
