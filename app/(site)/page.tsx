@@ -130,7 +130,7 @@ export default function HomePage() {
       {/* CTA */}
       <CTABanner
         headline="Ready to work together?"
-        subtext="Tell us what you&apos;re working on. We&apos;ll figure out if we&apos;re a good fit."
+        subtext="Tell us what you're working on. We'll figure out if we're a good fit."
         cta={{ label: 'Get in touch', href: '/contact' }}
       />
     </>

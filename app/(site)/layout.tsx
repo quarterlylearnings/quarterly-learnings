@@ -9,7 +9,7 @@ export default function SiteLayout({
   return (
     <>
       <Navigation />
-      <main>{children}</main>
+      <main className="pt-16">{children}</main>
       <Footer />
     </>
   )

@@ -39,7 +39,7 @@ export function Navigation({ currentPath, transparent: transparentProp }: Naviga
   return (
     <>
       <header
-        className="sticky top-0 z-50 transition-colors duration-[var(--duration-base)] ease-[var(--ease-default)]"
+        className="fixed top-0 left-0 right-0 z-50 transition-colors duration-[var(--duration-base)] ease-[var(--ease-default)]"
         style={{ backgroundColor: showSolid ? 'var(--color-tertiary)' : 'transparent' }}
       >
         <div className="mx-auto max-w-7xl px-8 lg:px-20 flex items-center justify-between h-16">

@@ -32,7 +32,7 @@ export function Hero({
 
   return (
     <div
-      className={`py-20 lg:py-28 ${className ?? ''}`}
+      className={`-mt-16 py-20 lg:py-28 ${className ?? ''}`}
       style={{ backgroundColor: background }}
     >
       <Container>
