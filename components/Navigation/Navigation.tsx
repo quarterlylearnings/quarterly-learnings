@@ -34,7 +34,7 @@ export function Navigation({ currentPath, transparent: transparentProp }: Naviga
     return () => window.removeEventListener('scroll', onScroll)
   }, [transparent])
 
-  const showSolid = !transparent || scrolled
+  const showSolid = !transparent || scrolled || isOpen
 
   return (
     <>
