@@ -17,6 +17,7 @@ const redHatDisplay = Red_Hat_Display({
 export const metadata: Metadata = {
   title: 'Quarterly Learnings',
   description: 'Technical instruction and AI implementation consulting.',
+  icons: { icon: '/favicon.png' },
 }
 
 export default function RootLayout({
