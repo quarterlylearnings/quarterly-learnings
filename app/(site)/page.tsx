@@ -1,4 +1,3 @@
-import type { CaseStudy } from '@/types/case-study'
 import { Hero } from '@/components/Hero/Hero'
 import { CTABanner } from '@/components/CTABanner/CTABanner'
 import { TestimonialContainer } from '@/components/TestimonialBlock/TestimonialBlock'
@@ -10,29 +9,8 @@ import { Body } from '@/components/typography/Body'
 import { Label } from '@/components/typography/Label'
 import { Section } from '@/components/layout/Section'
 import { Container } from '@/components/layout/Container'
-
-type WorkCard = Pick<CaseStudy, 'client' | 'service' | 'outcome'> & { href: string }
-
-const workCards: WorkCard[] = [
-  {
-    client: 'Midwest Tech Co.',
-    service: 'training',
-    outcome: 'Trained 12 engineers on a new CI/CD pipeline across 3 focused sessions.',
-    href: '/work/midwest-tech-co',
-  },
-  {
-    client: 'Harbor Consulting',
-    service: 'ai-implementation',
-    outcome: 'Automated a manual reporting workflow, saving 8 hours per week.',
-    href: '/work/harbor-consulting',
-  },
-  {
-    client: 'Northfield Ops',
-    service: 'training',
-    outcome: 'Built a custom Python curriculum for a non-technical operations team.',
-    href: '/work/northfield-ops',
-  },
-]
+import { caseStudies } from '@/data/case-studies'
+import type { CaseStudy } from '@/types/case-study'
 
 const serviceLabel: Record<CaseStudy['service'], string> = {
   training: 'Training',
@@ -106,8 +84,8 @@ export default function HomePage() {
             Who we&apos;ve worked with.
           </Heading>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-            {workCards.map(({ client, service, outcome, href }) => (
-              <Card key={client} variant="interactive" href={href}>
+            {caseStudies.slice(0, 3).map(({ slug, client, service, outcome }) => (
+              <Card key={slug} variant="interactive" href={`/work/${slug}`}>
                 <CardHeader>
                   <Badge label={serviceLabel[service]} variant="subtle" className="mb-3" />
                   <Heading level={4}>{client}</Heading>
