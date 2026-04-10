@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import NextLink from "next/link";
 import Image from "next/image";
@@ -31,12 +31,71 @@ export function Navigation({
     const [scrolled, setScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
+    const hamburgerRef = useRef<HTMLButtonElement>(null);
+    const drawerRef = useRef<HTMLElement>(null);
+    const wasOpen = useRef(false);
+
     useEffect(() => {
         if (!transparent) return;
         const onScroll = () => setScrolled(window.scrollY > 80);
         window.addEventListener("scroll", onScroll, { passive: true });
         return () => window.removeEventListener("scroll", onScroll);
     }, [transparent]);
+
+    // Focus trap when drawer is open
+    useEffect(() => {
+        if (!isOpen || !drawerRef.current) return;
+
+        const focusableSelectors = [
+            "a[href]",
+            "button:not([disabled])",
+            "[tabindex]:not([tabindex=\"-1\"])",
+        ].join(", ");
+
+        const getFocusable = () =>
+            Array.from(
+                drawerRef.current!.querySelectorAll<HTMLElement>(focusableSelectors)
+            );
+
+        getFocusable()[0]?.focus();
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                setIsOpen(false);
+                return;
+            }
+            if (e.key !== "Tab") return;
+
+            const focusable = getFocusable();
+            if (!focusable.length) return;
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (e.shiftKey) {
+                if (document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                }
+            } else {
+                if (document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen]);
+
+    // Return focus to hamburger button when drawer closes
+    useEffect(() => {
+        if (!isOpen && wasOpen.current) {
+            hamburgerRef.current?.focus();
+        }
+        wasOpen.current = isOpen;
+    }, [isOpen]);
 
     const showSolid = !transparent || scrolled || isOpen;
 
@@ -111,6 +170,7 @@ export function Navigation({
 
                     {/* Mobile hamburger */}
                     <button
+                        ref={hamburgerRef}
                         type="button"
                         className="md:hidden flex h-11 w-11 items-center justify-center rounded-md text-white/80 hover:text-white transition-colors"
                         aria-label={isOpen ? "Close menu" : "Open menu"}
@@ -138,6 +198,7 @@ export function Navigation({
                     />
                     {/* Drawer */}
                     <nav
+                        ref={drawerRef}
                         id="mobile-menu"
                         aria-label="Main navigation"
                         className="fixed top-16 left-0 right-0 z-40 md:hidden border-t border-white/10"
