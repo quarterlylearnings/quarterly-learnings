@@ -6,6 +6,7 @@ import { Link } from '@/components/ui/Link'
 import { Divider } from '@/components/ui/Divider'
 import { Section } from '@/components/layout/Section'
 import { Container } from '@/components/layout/Container'
+import { BOOKING_URL } from '@/data/booking'
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -25,12 +26,7 @@ export default function ContactPage() {
         <Container className="max-w-2xl mx-auto">
           <div className="mb-10">
             <Body className="mb-3">Prefer to talk first? Book a free 30-minute intro call.</Body>
-            {/* TODO: replace with real Google Calendar appointment link */}
-            <Link
-              variant="standalone"
-              href="https://calendar.google.com/calendar/appointments"
-              external
-            >
+            <Link variant="standalone" href={BOOKING_URL} external>
               Book a 30-minute call
             </Link>
           </div>
