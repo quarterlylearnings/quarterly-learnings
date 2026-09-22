@@ -30,12 +30,3 @@ export const WithSubtext: Story = {
     subtext: 'Technical training for teams and AI implementation for small businesses.',
   },
 }
-
-export const CustomBackground: Story = {
-  args: {
-    eyebrow: 'Portfolio',
-    headline: 'Our Work',
-    subtext: 'A selection of client engagements and outcomes.',
-    background: 'var(--color-secondary)',
-  },
-}
