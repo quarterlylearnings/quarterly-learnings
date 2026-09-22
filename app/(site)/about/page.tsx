@@ -22,17 +22,19 @@ export default function AboutPage() {
       {/* Bio */}
       <Section>
         <Container className="max-w-2xl mx-auto">
-          {/* TODO: replace with final copy from DEV-28 */}
           <Body className="mb-4">
-            I&apos;m a technical instructor and AI implementation consultant based in the Midwest. I got
-            into this work because I kept seeing the same pattern: talented teams stuck on tools they were
-            never properly taught, and small businesses sitting on problems that AI could already solve —
-            if someone would just help them scope it.
+            {/* TODO(DEV-28): add one sentence after the first on how Brandon first got into teaching */}
+            I&apos;m Brandon, and I&apos;ve spent most of my career in the room where engineers learn new
+            things. Along the way I&apos;ve taught full-stack development to U.S. military engineering teams
+            and USAA developers with Galvanize, founded The Home Depot&apos;s internal engineering bootcamp,
+            Orange Method, and led a grant-funded program that took twenty career changers through sixteen
+            weeks of web development.
           </Body>
           <Body>
-            I&apos;ve spent years in the room where engineers learn things — designing curriculum, running
-            workshops, debugging live code with real teams. That experience shapes everything I do, whether
-            I&apos;m teaching a CI/CD workflow or helping a business owner automate their reporting.
+            Quarterly Learnings is where that work continues, now alongside a newer thread: helping people
+            put AI to practical use. I teach applied AI sessions sponsored by Columbia Business School and
+            build AI-assisted tools for small businesses. What drives both is the same thing: the moment
+            someone realizes they can do something they couldn&apos;t do before.
           </Body>
         </Container>
       </Section>
@@ -40,16 +42,17 @@ export default function AboutPage() {
       {/* Philosophy */}
       <Section background="var(--color-secondary)">
         <Container className="max-w-2xl mx-auto">
-          {/* TODO: replace with final copy from DEV-28 */}
           <Heading level={2} className="text-white mb-6">How I teach</Heading>
           <Body className="text-white/70 mb-4">
-            Good instruction starts with knowing what the learner actually needs to be able to do — not
-            what the syllabus says they should know. I design sessions around outcomes, not topics. If
-            your team needs to ship a feature using a new tool, that&apos;s what we practice.
+            Good instruction starts with what a learner needs to be able to do, not what a syllabus says
+            they should know. I design every session backward from that outcome, keep the group working on
+            real problems in their own stack, and measure success by whether people can do the thing the
+            next day without me in the room.
           </Body>
           <Body className="text-white/70">
-            I keep sessions tight and hands-on. The best measure of a good workshop is whether people
-            can do the thing the next day without me in the room.
+            AI work follows the same rule. We pick one problem worth solving, agree on what
+            &ldquo;done&rdquo; looks like, and build it in the open, so when the engagement ends you
+            understand what you have and can keep using it.
           </Body>
         </Container>
       </Section>

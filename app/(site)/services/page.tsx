@@ -17,22 +17,28 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
-      <PageHeader eyebrow="What we do" headline="Services" />
+      <PageHeader
+        eyebrow="What we do"
+        headline="Services"
+        subtext="Two ways to work together: hands-on training for technical teams, and practical AI for small businesses."
+      />
 
       <div id="training">
         <Section>
           <Container className="max-w-3xl mx-auto">
-            {/* TODO: replace with final copy from DEV-28 */}
             <Heading level={2} className="mb-6">Technical Training for Teams</Heading>
             <Body className="mb-4">
-              I design and deliver focused technical workshops for engineering teams — built around your
-              specific stack, timeline, and goals. Whether you&apos;re onboarding engineers to a new tool,
-              rolling out a process change, or closing a skills gap, I scope the curriculum to what your
-              team actually needs to do.
+              Quarterly Learnings designs and teaches hands-on technical training for teams that need to
+              learn a specific skill together, whether that&apos;s a new language or framework, a cloud
+              platform, a testing practice, or the day-to-day use of AI tools. Every engagement starts with
+              what your team needs to be able to do when it&apos;s over, and the curriculum is built backward
+              from there, around your stack and your timeline.
             </Body>
             <Body className="mb-8">
-              Sessions are instructor-led and hands-on. No slide decks, no generic content off the shelf —
-              just the material your team needs to move forward, taught by someone who&apos;s done the work.
+              Sessions are instructor-led, in person or virtual, and built on labs and real project work
+              rather than slides. Past programs range from a 16-week web development course that finished
+              with a 95% completion rate to applied AI sessions for professionals at Columbia Business
+              School.
             </Body>
             <Button variant="secondary" size="md" as="a" href="/contact">
               Let&apos;s talk about your team
@@ -46,17 +52,19 @@ export default function ServicesPage() {
       <div id="ai-implementation">
         <Section>
           <Container className="max-w-3xl mx-auto">
-            {/* TODO: replace with final copy from DEV-28 */}
             <Heading level={2} className="mb-6">AI Implementation for Small Businesses</Heading>
             <Body className="mb-4">
-              I work with small business owners to find one real problem AI can solve — then I build it.
-              That might be automating a reporting workflow, drafting a customer communication process, or
-              connecting tools that currently require manual hand-offs. The scope is always clear and the
-              language is always plain.
+              Quarterly Learnings helps small business owners put AI to work on one specific problem: the
+              report that takes an afternoon to pull together, the documents your staff writes from scratch
+              every week, the information that lives in three different places. We start with a conversation
+              about how your business actually runs, agree on a clearly scoped piece of work, then build it
+              and connect it to the tools you already use.
             </Body>
             <Body className="mb-8">
-              No unnecessary complexity, no vague roadmaps. You&apos;ll walk away with something working,
-              and you&apos;ll understand how it works.
+              You don&apos;t need to be technical, and you won&apos;t get a vague roadmap. You get something
+              that works, and an explanation of how it works. For one local business, that meant a custom
+              system to run day-to-day operations, with AI-assisted document drafting now rolling out to
+              their office staff.
             </Body>
             <Button variant="secondary" size="md" as="a" href="/contact">
               Tell us about your project
