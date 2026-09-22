@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getAllPostIds, getPostData } from '@/lib/posts'
 import { Heading } from '@/components/typography/Heading'
 import { Caption } from '@/components/typography/Caption'
@@ -9,12 +10,27 @@ type PostData = {
   id: string
   postHtml: string
   title?: string
+  description?: string
   date?: string
   dateCreated?: string
 }
 
 export async function generateStaticParams() {
   return getAllPostIds().map((p: { params: { id: string } }) => p.params)
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const post = (await getPostData(id)) as PostData
+  // Omit description when the post has none so the site default applies
+  return {
+    title: post.title ?? post.id,
+    ...(post.description && { description: post.description }),
+  }
 }
 
 export default async function BlogPostPage({
@@ -37,7 +53,7 @@ export default async function BlogPostPage({
         </Heading>
         {displayDate && <Caption className="mb-10 block">{displayDate}</Caption>}
         <div
-          className="prose prose-stone max-w-none prose-headings:font-serif prose-headings:text-tertiary prose-p:font-sans prose-p:text-neutral prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-tertiary prose-strong:font-semibold"
+          className="prose prose-stone max-w-none prose-headings:font-serif prose-headings:text-tertiary prose-p:font-sans prose-p:text-neutral prose-a:text-primary-textprose-a:no-underline hover:prose-a:underline prose-strong:text-tertiary prose-strong:font-semibold"
           dangerouslySetInnerHTML={{ __html: post.postHtml }}
         />
       </Container>

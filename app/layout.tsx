@@ -15,7 +15,10 @@ const redHatDisplay = Red_Hat_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Quarterly Learnings',
+  title: {
+    default: 'Quarterly Learnings',
+    template: '%s — Quarterly Learnings',
+  },
   description: 'Technical instruction and AI implementation consulting.',
   icons: { icon: '/favicon.png' },
 }

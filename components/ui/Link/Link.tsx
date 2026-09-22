@@ -7,9 +7,11 @@ const linkVariants = cva(
   {
     variants: {
       variant: {
-        inline: 'underline underline-offset-2 decoration-current text-inherit hover:text-primary hover:decoration-primary',
-        standalone: 'text-primary font-medium hover:gap-2',
-        nav: 'text-tertiary no-underline hover:text-primary',
+        inline: 'underline underline-offset-2 decoration-current text-inherit hover:text-primary-text hover:decoration-primary-text',
+        standalone: 'text-primary-text font-medium hover:gap-2',
+        // For dark backgrounds (e.g. secondary green), where primary-text lacks contrast
+        'standalone-inverse': 'text-accent font-medium hover:gap-2',
+        nav: 'text-tertiary no-underline hover:text-primary-text',
       },
     },
     defaultVariants: {

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { PageHeader } from '@/components/PageHeader/PageHeader'
 import { CTABanner } from '@/components/CTABanner/CTABanner'
 import { Button } from '@/components/ui/Button'
@@ -6,6 +7,12 @@ import { Heading } from '@/components/typography/Heading'
 import { Body } from '@/components/typography/Body'
 import { Section } from '@/components/layout/Section'
 import { Container } from '@/components/layout/Container'
+
+export const metadata: Metadata = {
+  title: 'Services',
+  description:
+    'Hands-on technical training for engineering teams and practical AI implementation for small businesses.',
+}
 
 export default function ServicesPage() {
   return (

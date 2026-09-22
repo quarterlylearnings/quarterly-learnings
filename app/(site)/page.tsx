@@ -21,7 +21,6 @@ export default function HomePage() {
   return (
     <>
       {/* Hero — Navigation is transparent here via layout.tsx / Navigation.tsx */}
-      {/* TODO: replace /instruction-rear.jpg with final hero photo of Brandon teaching */}
       <Hero
         variant="split"
         eyebrow="Technical Instruction & AI Implementation"
@@ -77,7 +76,8 @@ export default function HomePage() {
       {/* Work teaser */}
       <Section background="var(--color-secondary)">
         <Container>
-          <Label className="text-accent/70 uppercase tracking-widest block mb-3">
+          {/* `!` needed: Label's default text-neutral otherwise wins the cascade (see TD-004) */}
+          <Label className="text-accent! uppercase tracking-widest block mb-3">
             Portfolio
           </Label>
           <Heading level={2} className="text-white mb-10">
@@ -88,7 +88,7 @@ export default function HomePage() {
               <Card key={slug} variant="interactive" href={`/work/${slug}`}>
                 <CardHeader>
                   <Badge label={serviceLabel[service]} variant="subtle" className="mb-3" />
-                  <Heading level={4}>{client}</Heading>
+                  <Heading level={4} as="h3">{client}</Heading>
                   {deliveredAsEmployeeOf && (
                     <Label className="text-neutral mt-1 block">
                       Delivered while at {deliveredAsEmployeeOf}
@@ -101,7 +101,7 @@ export default function HomePage() {
               </Card>
             ))}
           </div>
-          <Link variant="standalone" href="/work">
+          <Link variant="standalone-inverse" href="/work">
             View all work
           </Link>
         </Container>

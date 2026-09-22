@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { PageHeader } from '@/components/PageHeader/PageHeader'
 import { ContactForm } from '@/components/ContactForm/ContactForm'
 import { Body } from '@/components/typography/Body'
@@ -5,6 +6,12 @@ import { Link } from '@/components/ui/Link'
 import { Divider } from '@/components/ui/Divider'
 import { Section } from '@/components/layout/Section'
 import { Container } from '@/components/layout/Container'
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  description:
+    'Tell us about your team or project, or book a free 30-minute intro call.',
+}
 
 export default function ContactPage() {
   return (

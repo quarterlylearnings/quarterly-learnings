@@ -99,7 +99,7 @@ export function Footer() {
               <a
                 key={label}
                 href={href}
-                aria-label={label}
+                aria-label={external ? `${label} (opens in new tab)` : label}
                 {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 className="flex h-11 w-11 items-center justify-center rounded-md text-white/55 hover:text-white/90 transition-colors"
               >

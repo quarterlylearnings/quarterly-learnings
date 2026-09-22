@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { PageHeader } from '@/components/PageHeader/PageHeader'
 import { CTABanner } from '@/components/CTABanner/CTABanner'
 import { TestimonialContainer } from '@/components/TestimonialBlock/TestimonialBlock'
@@ -6,6 +7,12 @@ import { Heading } from '@/components/typography/Heading'
 import { Body } from '@/components/typography/Body'
 import { Section } from '@/components/layout/Section'
 import { Container } from '@/components/layout/Container'
+
+export const metadata: Metadata = {
+  title: 'About',
+  description:
+    'Brandon Campbell-Kearns is a technical instructor and AI implementation consultant who designs outcome-focused training for real teams.',
+}
 
 export default function AboutPage() {
   return (

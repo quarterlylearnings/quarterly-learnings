@@ -55,7 +55,9 @@ export function Hero({
                 src={image.src}
                 alt={image.alt}
                 fill
-                priority
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                loading="eager"
+                fetchPriority="high"
                 className="object-cover"
               />
             </div>
