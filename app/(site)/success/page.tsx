@@ -2,8 +2,10 @@ import type { Metadata } from 'next'
 import { PageHeader } from '@/components/PageHeader/PageHeader'
 import { Body } from '@/components/typography/Body'
 import { Link } from '@/components/ui/Link'
+import { Divider } from '@/components/ui/Divider'
 import { Section } from '@/components/layout/Section'
 import { Container } from '@/components/layout/Container'
+import { BOOKING_URL } from '@/data/booking'
 
 // Destination after a successful contact form submission (see ContactForm)
 export const metadata: Metadata = {
@@ -21,9 +23,11 @@ export default function SuccessPage() {
       />
       <Section>
         <Container className="max-w-2xl mx-auto">
-          <Body className="mb-8">
-            In the meantime, take a look at some of the teams we&apos;ve worked with.
-          </Body>
+          <Body className="mb-3">Want to talk sooner? Book a free 30-minute intro call.</Body>
+          <Link variant="standalone" href={BOOKING_URL} external>
+            Book a 30-minute call
+          </Link>
+          <Divider variant="line" className="my-10" />
           <div className="flex flex-col gap-4">
             <Link variant="standalone" href="/work">
               See our work
