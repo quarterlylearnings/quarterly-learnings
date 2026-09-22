@@ -84,11 +84,16 @@ export default function HomePage() {
             Who we&apos;ve worked with.
           </Heading>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-            {caseStudies.slice(0, 3).map(({ slug, client, service, outcome }) => (
+            {caseStudies.slice(0, 3).map(({ slug, client, service, outcome, deliveredAsEmployeeOf }) => (
               <Card key={slug} variant="interactive" href={`/work/${slug}`}>
                 <CardHeader>
                   <Badge label={serviceLabel[service]} variant="subtle" className="mb-3" />
                   <Heading level={4}>{client}</Heading>
+                  {deliveredAsEmployeeOf && (
+                    <Label className="text-neutral mt-1 block">
+                      Delivered while at {deliveredAsEmployeeOf}
+                    </Label>
+                  )}
                 </CardHeader>
                 <CardBody>
                   <Body>{outcome}</Body>
