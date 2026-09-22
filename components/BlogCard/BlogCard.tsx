@@ -18,7 +18,7 @@ export function BlogCard({ id, title, date, dateCreated, excerpt, className }: B
     <Card variant="interactive" href={`/blog/${id}`} className={className}>
       <CardHeader>
         {displayDate && <Caption className="mb-2 block">{displayDate}</Caption>}
-        <Heading level={3}>{title}</Heading>
+        <Heading level={3} as="h2">{title}</Heading>
       </CardHeader>
       {excerpt && (
         <CardBody>

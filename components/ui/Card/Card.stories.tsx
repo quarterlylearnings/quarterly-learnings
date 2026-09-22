@@ -65,7 +65,7 @@ export const WithMedia: Story = {
     <Card variant="default" className="w-80">
       <Card.Media>
         <div className="h-40 bg-primary/20 flex items-center justify-center">
-          <span className="font-sans text-small text-primary">Media slot</span>
+          <span className="font-sans text-small text-tertiary">Media slot</span>
         </div>
       </Card.Media>
       <Card.Header>

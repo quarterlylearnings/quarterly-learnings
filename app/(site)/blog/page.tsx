@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getSortedPostsData } from '@/lib/posts'
 import { PageHeader } from '@/components/PageHeader/PageHeader'
 import { BlogCard } from '@/components/BlogCard/BlogCard'
@@ -9,6 +10,12 @@ type PostMeta = {
   title?: string
   date?: string
   dateCreated?: string
+}
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description:
+    'Writing on technical instruction, learning design, and putting AI to practical use.',
 }
 
 export default function BlogPage() {

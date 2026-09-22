@@ -11,7 +11,7 @@ const statusVariants = cva(
       variant: {
         success: 'bg-secondary/10 text-secondary',
         error: 'bg-error/10 text-error',
-        info: 'bg-primary/10 text-primary',
+        info: 'bg-primary/10 text-primary-text',
       },
     },
     defaultVariants: {

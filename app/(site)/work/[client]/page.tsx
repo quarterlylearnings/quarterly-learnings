@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Avatar } from '@/components/ui/Avatar'
 import { Badge } from '@/components/ui/Badge'
@@ -17,6 +18,17 @@ const serviceLabel: Record<CaseStudy['service'], string> = {
 
 export async function generateStaticParams() {
   return caseStudies.map((s) => ({ client: s.slug }))
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ client: string }>
+}): Promise<Metadata> {
+  const { client } = await params
+  const study = caseStudies.find((s) => s.slug === client)
+  if (!study) return {}
+  return { title: study.client, description: study.outcome }
 }
 
 export default async function ClientPage({
@@ -51,17 +63,17 @@ export default async function ClientPage({
         <Container className="max-w-2xl mx-auto">
           <Avatar variant="initials" name={study.client} size="lg" className="mb-8" />
 
-          <Heading level={3} className="mb-3">
+          <Heading level={3} as="h2" className="mb-3">
             The Challenge
           </Heading>
           <Body>{study.challenge}</Body>
 
-          <Heading level={3} className="mb-3 mt-8">
+          <Heading level={3} as="h2" className="mb-3 mt-8">
             The Approach
           </Heading>
           <Body>{study.approach}</Body>
 
-          <Heading level={3} className="mb-3 mt-8">
+          <Heading level={3} as="h2" className="mb-3 mt-8">
             The Outcome
           </Heading>
           <Body>{study.outcome}</Body>

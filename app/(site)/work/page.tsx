@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { FolderOpen } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader/PageHeader'
 import { EmptyState } from '@/components/ui/EmptyState'
@@ -14,6 +15,12 @@ import type { CaseStudy } from '@/types/case-study'
 const serviceLabel: Record<CaseStudy['service'], string> = {
   training: 'Training',
   'ai-implementation': 'AI Implementation',
+}
+
+export const metadata: Metadata = {
+  title: 'Our Work',
+  description:
+    'Case studies from technical training and AI implementation engagements with teams in government, education, retail, and small business.',
 }
 
 export default function WorkPage() {
@@ -35,7 +42,7 @@ export default function WorkPage() {
                 <Card key={study.slug} variant="interactive" href={`/work/${study.slug}`}>
                   <CardHeader>
                     <Badge label={serviceLabel[study.service]} variant="subtle" className="mb-3" />
-                    <Heading level={3}>{study.client}</Heading>
+                    <Heading level={3} as="h2">{study.client}</Heading>
                     <Label className="text-neutral mt-1 block">{study.industry}</Label>
                     {study.deliveredAsEmployeeOf && (
                       <Label className="text-neutral mt-1 block">

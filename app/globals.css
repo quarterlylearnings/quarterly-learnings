@@ -6,11 +6,13 @@
 @theme {
   /* --- Colors --- */
   --color-primary: #80A1D4;
+  /* Primary as text on light backgrounds — #80A1D4 is only 2.6:1 on white */
+  --color-primary-text: #4A6FA5;
   --color-secondary: #355834;
   --color-tertiary: #14281D;
   --color-accent: #FFDB00;
   --color-neutral: #6E633D;
-  --color-error: #C0392B;
+  --color-error: #A93226;
 
   /* --- Type scale --- */
   --text-display: 3.5rem;

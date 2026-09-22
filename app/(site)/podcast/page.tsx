@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPodcastEpisodes } from '@/lib/podcast'
 import { PageHeader } from '@/components/PageHeader/PageHeader'
 import { StatusMessage } from '@/components/ui/StatusMessage'
@@ -9,6 +10,12 @@ import { Link } from '@/components/ui/Link'
 import { Section } from '@/components/layout/Section'
 import { Container } from '@/components/layout/Container'
 import type { Episode } from '@/lib/podcast'
+
+export const metadata: Metadata = {
+  title: 'Podcast',
+  description:
+    'Conversations about learning new technical skills, from the Quarterly Learnings podcast.',
+}
 
 export default async function PodcastPage() {
   let episodes: Episode[] = []
@@ -46,7 +53,7 @@ export default async function PodcastPage() {
                         })}
                       </Caption>
                     )}
-                    <Heading level={3}>{ep.title}</Heading>
+                    <Heading level={3} as="h2">{ep.title}</Heading>
                   </CardHeader>
                   <CardBody>
                     <Body className="line-clamp-3">{ep.description}</Body>
