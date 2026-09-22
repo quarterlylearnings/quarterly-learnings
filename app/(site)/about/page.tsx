@@ -24,17 +24,18 @@ export default function AboutPage() {
         <Container className="max-w-2xl mx-auto">
           <Body className="mb-4">
             {/* TODO(DEV-28): add one sentence after the first on how Brandon first got into teaching */}
-            I&apos;m Brandon, and I&apos;ve spent most of my career in the room where engineers learn new
-            things. Along the way I&apos;ve taught full-stack development to U.S. military engineering teams
-            and USAA developers with Galvanize, founded The Home Depot&apos;s internal engineering bootcamp,
-            Orange Method, and led a grant-funded program that took twenty career changers through sixteen
-            weeks of web development.
+            I teach technical skills to teams and help small businesses put AI to practical use. Before
+            starting Quarterly Learnings, I founded Orange Method, The Home Depot&apos;s internal engineering
+            bootcamp, which trained thousands of associates. With Galvanize, I taught Angular and Java to USAA
+            developers and piloted a full-stack curriculum for military engineering teams that supported a
+            $60M Department of Defense contract.
           </Body>
           <Body>
-            Quarterly Learnings is where that work continues, now alongside a newer thread: helping people
-            put AI to practical use. I teach applied AI sessions sponsored by Columbia Business School and
-            build AI-assisted tools for small businesses. What drives both is the same thing: the moment
-            someone realizes they can do something they couldn&apos;t do before.
+            Through Quarterly Learnings, I&apos;ve taught a grant-funded group of twenty people sixteen weeks
+            of web development, with a 95% completion rate, and I teach applied AI sessions
+            sponsored by Columbia Business School. I also build AI-assisted tools for small
+            businesses. Today I work with teams that need to learn a specific skill together and with
+            owners who have one problem worth solving with AI.
           </Body>
         </Container>
       </Section>
@@ -44,14 +45,13 @@ export default function AboutPage() {
         <Container className="max-w-2xl mx-auto">
           <Heading level={2} className="text-white mb-6">How I teach</Heading>
           <Body className="text-white/70 mb-4">
-            Good instruction starts with what a learner needs to be able to do, not what a syllabus says
-            they should know. I design every session backward from that outcome, keep the group working on
-            real problems in their own stack, and measure success by whether people can do the thing the
-            next day without me in the room.
+            I design every session backward from what the group needs to be able to do when it&apos;s
+            over. People work on real problems in their own stack, and I measure success by whether they can
+            do the work the next day without me in the room.
           </Body>
           <Body className="text-white/70">
-            AI work follows the same rule. We pick one problem worth solving, agree on what
-            &ldquo;done&rdquo; looks like, and build it in the open, so when the engagement ends you
+            AI engagements follow the same approach. We agree on one problem worth solving and what
+            &ldquo;done&rdquo; looks like, then I build it with you, so when the engagement ends you
             understand what you have and can keep using it.
           </Body>
         </Container>
