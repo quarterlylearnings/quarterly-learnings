@@ -37,6 +37,11 @@ export default function WorkPage() {
                     <Badge label={serviceLabel[study.service]} variant="subtle" className="mb-3" />
                     <Heading level={3}>{study.client}</Heading>
                     <Label className="text-neutral mt-1 block">{study.industry}</Label>
+                    {study.deliveredAsEmployeeOf && (
+                      <Label className="text-neutral mt-1 block">
+                        Delivered while at {study.deliveredAsEmployeeOf}
+                      </Label>
+                    )}
                   </CardHeader>
                   <CardBody>
                     <Body>{study.outcome}</Body>

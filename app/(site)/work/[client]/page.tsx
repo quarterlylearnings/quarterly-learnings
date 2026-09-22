@@ -38,6 +38,11 @@ export default async function ClientPage({
             {study.client}
           </Heading>
           <Label className="text-white/60 uppercase tracking-widest">{study.industry}</Label>
+          {study.deliveredAsEmployeeOf && (
+            <Label className="text-white/60 mt-2 block">
+              Delivered while at {study.deliveredAsEmployeeOf}
+            </Label>
+          )}
         </Container>
       </Section>
 
@@ -52,7 +57,7 @@ export default async function ClientPage({
           <Body>{study.challenge}</Body>
 
           <Heading level={3} className="mb-3 mt-8">
-            How We Approached It
+            The Approach
           </Heading>
           <Body>{study.approach}</Body>
 
