@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
@@ -22,6 +23,7 @@ const SERVICE_OPTIONS = [
 ]
 
 export function ContactForm() {
+  const router = useRouter()
   const [values, setValues] = useState<FormValues>({
     name: '',
     email: '',
@@ -30,7 +32,7 @@ export function ContactForm() {
     message: '',
   })
   const [errors, setErrors] = useState<Partial<FormValues>>({})
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'error'>('idle')
 
   function validate(): Partial<FormValues> {
     const e: Partial<FormValues> = {}
@@ -64,19 +66,12 @@ export function ContactForm() {
         body: new URLSearchParams({ 'form-name': 'contact', ...values }).toString(),
       })
       if (!res.ok) throw new Error()
-      setSubmitStatus('success')
+      // AJAX submissions ignore the form's `action`, so redirect to the success page ourselves
+      // (https://docs.netlify.com/manage/forms/setup/#custom-success-page)
+      router.push('/success')
     } catch {
       setSubmitStatus('error')
     }
-  }
-
-  if (submitStatus === 'success') {
-    return (
-      <StatusMessage
-        variant="success"
-        message="Thanks! We'll be in touch within 1–2 business days."
-      />
-    )
   }
 
   return (
