@@ -39,9 +39,9 @@ const socialLinks: Array<{
   external?: boolean
 }> = [
   { label: 'Email', href: 'mailto:info@quarterlylearnings.com', icon: Mail },
-  { label: 'YouTube', href: 'https://youtube.com', icon: YouTubeIcon, external: true },
-  { label: 'TikTok', href: 'https://tiktok.com', icon: Music2, external: true },
-  { label: 'Podcast', href: 'https://podcast.quarterlylearnings.com', icon: Mic2, external: true },
+  { label: 'YouTube', href: 'https://www.youtube.com/@quarterlylearnings', icon: YouTubeIcon, external: true },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@quarterlylearnings', icon: Music2, external: true },
+  { label: 'Podcast', href: 'https://open.spotify.com/show/1WtFyiRTK16EXTIdD4VEPe?si=i2ZGCmxQSyeBmzOXAB9Phg', icon: Mic2, external: true },
 ]
 
 export function Footer() {
