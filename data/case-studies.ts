@@ -59,11 +59,11 @@ export const caseStudies: CaseStudyEntry[] = [
     service: 'training',
     deliveredAsEmployeeOf: 'Galvanize',
     challenge:
-      'USAA engineering teams needed hands-on Agile instruction in Angular and Java, plus support translating that training into real project work.',
+      'USAA engineering teams needed hands-on technical Agile instruction, plus support translating that training into real project work.',
     approach:
-      'Delivered 4 weeks of technical Agile instruction in Angular and Java, followed by 8 weeks of embedded implementation support working directly alongside USAA engineering teams.',
+      'Delivered 4 weeks of technical Agile instruction, followed by 8 weeks of embedded implementation support working directly alongside USAA engineering teams.',
     outcome:
-      'Engineering teams moved from classroom instruction to applying Agile and Angular/Java practices on live work within three months.',
+      'Engineering teams moved from classroom instruction to applying Agile practices on live work within three months.',
   },
   {
     slug: 'the-home-depot',

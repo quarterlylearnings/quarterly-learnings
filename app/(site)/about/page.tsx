@@ -22,17 +22,19 @@ export default function AboutPage() {
       {/* Bio */}
       <Section>
         <Container className="max-w-2xl mx-auto">
-          {/* TODO: replace with final copy from DEV-28 */}
           <Body className="mb-4">
-            I&apos;m a technical instructor and AI implementation consultant based in the Midwest. I got
-            into this work because I kept seeing the same pattern: talented teams stuck on tools they were
-            never properly taught, and small businesses sitting on problems that AI could already solve —
-            if someone would just help them scope it.
+            I teach technical skills to teams and help small businesses put AI to practical use. I first got into teaching once I realized it was quite an effective way to learn. Before
+            starting Quarterly Learnings, I founded Orange Method, The Home Depot&apos;s internal engineering
+            bootcamp, which trained thousands of associates. With Galvanize, I taught USAA developers and
+            piloted a full-stack curriculum for military engineering teams that supported a $60M Department
+            of Defense contract.
           </Body>
           <Body>
-            I&apos;ve spent years in the room where engineers learn things — designing curriculum, running
-            workshops, debugging live code with real teams. That experience shapes everything I do, whether
-            I&apos;m teaching a CI/CD workflow or helping a business owner automate their reporting.
+            Through Quarterly Learnings, I&apos;ve taught a grant-funded group of twenty people sixteen weeks
+            of web development, with a 95% completion rate, and I teach applied AI sessions
+            sponsored by Columbia Business School. I also build AI-assisted tools for small
+            businesses. Today, I work with teams that need to learn a specific skill together and with
+            owners who have one problem worth solving with AI.
           </Body>
         </Container>
       </Section>
@@ -40,16 +42,15 @@ export default function AboutPage() {
       {/* Philosophy */}
       <Section background="var(--color-secondary)">
         <Container className="max-w-2xl mx-auto">
-          {/* TODO: replace with final copy from DEV-28 */}
           <Heading level={2} className="text-white mb-6">How I teach</Heading>
           <Body className="text-white/70 mb-4">
-            Good instruction starts with knowing what the learner actually needs to be able to do — not
-            what the syllabus says they should know. I design sessions around outcomes, not topics. If
-            your team needs to ship a feature using a new tool, that&apos;s what we practice.
+            I design every session backward from what the group needs to be able to do when it&apos;s
+            over. People work on real problems in their own stack or toolset, and I measure success by whether they can do the work the next day without me in the room.
           </Body>
           <Body className="text-white/70">
-            I keep sessions tight and hands-on. The best measure of a good workshop is whether people
-            can do the thing the next day without me in the room.
+            AI engagements follow the same approach. We agree on one problem worth solving and what
+            &ldquo;done&rdquo; looks like, then I build it with you, so when the engagement ends you
+            understand what you have and can keep using it.
           </Body>
         </Container>
       </Section>
