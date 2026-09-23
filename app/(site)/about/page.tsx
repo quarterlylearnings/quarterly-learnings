@@ -24,7 +24,7 @@ export default function AboutPage() {
         <Container className="max-w-2xl mx-auto">
           <Body className="mb-4">
             I teach technical skills to teams and help small businesses put AI to practical use. I first got into teaching once I realized it was quite an effective way to learn. Before
-            starting Quarterly Learnings, I founded Orange Method, The Home Depot&apos;s internal engineering
+            starting Quarterly Learnings, I was on the founding team of Orange Method, The Home Depot&apos;s internal engineering
             bootcamp, which trained thousands of associates. With Galvanize, I taught USAA developers and
             piloted a full-stack curriculum for military engineering teams that supported a $60M Department
             of Defense contract.
