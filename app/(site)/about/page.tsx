@@ -26,9 +26,9 @@ export default function AboutPage() {
             {/* TODO(DEV-28): add one sentence after the first on how Brandon first got into teaching */}
             I teach technical skills to teams and help small businesses put AI to practical use. Before
             starting Quarterly Learnings, I founded Orange Method, The Home Depot&apos;s internal engineering
-            bootcamp, which trained thousands of associates. With Galvanize, I taught Angular and Java to USAA
-            developers and piloted a full-stack curriculum for military engineering teams that supported a
-            $60M Department of Defense contract.
+            bootcamp, which trained thousands of associates. With Galvanize, I taught USAA developers and
+            piloted a full-stack curriculum for military engineering teams that supported a $60M Department
+            of Defense contract.
           </Body>
           <Body>
             Through Quarterly Learnings, I&apos;ve taught a grant-funded group of twenty people sixteen weeks
