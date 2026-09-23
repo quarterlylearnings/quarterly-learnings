@@ -23,8 +23,7 @@ export default function AboutPage() {
       <Section>
         <Container className="max-w-2xl mx-auto">
           <Body className="mb-4">
-            {/* TODO(DEV-28): add one sentence after the first on how Brandon first got into teaching */}
-            I teach technical skills to teams and help small businesses put AI to practical use. Before
+            I teach technical skills to teams and help small businesses put AI to practical use. I first got into teaching once I realized it was quite an effective way to learn. Before
             starting Quarterly Learnings, I founded Orange Method, The Home Depot&apos;s internal engineering
             bootcamp, which trained thousands of associates. With Galvanize, I taught USAA developers and
             piloted a full-stack curriculum for military engineering teams that supported a $60M Department
@@ -34,7 +33,7 @@ export default function AboutPage() {
             Through Quarterly Learnings, I&apos;ve taught a grant-funded group of twenty people sixteen weeks
             of web development, with a 95% completion rate, and I teach applied AI sessions
             sponsored by Columbia Business School. I also build AI-assisted tools for small
-            businesses. Today I work with teams that need to learn a specific skill together and with
+            businesses. Today, I work with teams that need to learn a specific skill together and with
             owners who have one problem worth solving with AI.
           </Body>
         </Container>
@@ -46,8 +45,7 @@ export default function AboutPage() {
           <Heading level={2} className="text-white mb-6">How I teach</Heading>
           <Body className="text-white/70 mb-4">
             I design every session backward from what the group needs to be able to do when it&apos;s
-            over. People work on real problems in their own stack, and I measure success by whether they can
-            do the work the next day without me in the room.
+            over. People work on real problems in their own stack or toolset, and I measure success by whether they can do the work the next day without me in the room.
           </Body>
           <Body className="text-white/70">
             AI engagements follow the same approach. We agree on one problem worth solving and what
