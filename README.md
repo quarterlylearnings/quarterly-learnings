@@ -1,34 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# quarterlylearnings.com
 
-## Getting Started
+Website for Quarterly Learnings: technical training for teams and AI implementation for small businesses.
 
-First, run the development server:
+Built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4, with a component library documented in Storybook. Deployed on Netlify.
+
+## Getting started
+
+Requires Node.js 20.9 or later.
 
 ```bash
-npm run dev
-# or
-yarn dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+| Command | What it does |
+| -- | -- |
+| `npm run dev` | Development server |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | ESLint (flat config in `eslint.config.mjs`) |
+| `npm run storybook` | Storybook on http://localhost:6006 |
+| `npm run build-storybook` | Static Storybook build |
+| `npm run test:e2e` | Playwright smoke tests (starts the dev server) |
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Project layout
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- `app/(site)/` — pages (home, services, about, work, blog, podcast, contact, success, design)
+- `components/` — layout, typography, and UI components, each with a `*.stories.tsx`
+- `data/case-studies.ts` — case study content for `/work` and the home page preview
+- `data/booking.ts` — intro-call booking link shared by `/contact` and `/success`
+- `posts/` — blog posts as Markdown, read by `lib/posts.js`
+- `public/__forms.html` — static form definition that lets Netlify detect the contact form
+- `e2e/` — Playwright tests
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+Netlify deploys `main` to production and `development` as a branch deploy. Work lands on a feature branch, merges into `development`, and ships when `development` merges into `main`. Launches are tagged as GitHub releases.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The contact form uses Netlify Forms: `ContactForm` posts to `/__forms.html` and redirects to `/success` on success.
