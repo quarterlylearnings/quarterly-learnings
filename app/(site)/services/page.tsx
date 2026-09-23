@@ -61,10 +61,10 @@ export default function ServicesPage() {
               and connect it to the tools you already use.
             </Body>
             <Body className="mb-8">
-              You don&apos;t need to be technical, and you won&apos;t get a vague roadmap. You get something
-              that works, and an explanation of how it works. For one local business, that meant a custom
-              system to run day-to-day operations, with AI-assisted document drafting now rolling out to
-              their office staff.
+              You don&apos;t need to be technical to work with us, and when the work is done you&apos;ll have
+              a tool that runs in your business and a plain explanation of how it works. For one local
+              business, that meant a custom system to run day-to-day operations, with AI-assisted document
+              drafting now rolling out to their office staff.
             </Body>
             <Button variant="secondary" size="md" as="a" href="/contact">
               Tell us about your project
