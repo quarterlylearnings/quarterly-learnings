@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Red+Hat+Display:wght@400;500;600;700&display=swap');
+
+/*
+  Manually declare the font-family CSS variables that next/font/google
+  injects at runtime in Next.js. Storybook loads these fonts directly
+  via Google Fonts instead, so stories render with the correct typefaces.
+*/
+:root {
+  --font-serif: 'Lora', Georgia, serif;
+  --font-sans: 'Red Hat Display', system-ui, sans-serif;
+}
