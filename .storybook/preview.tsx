@@ -3,6 +3,14 @@ import './fonts.css'
 import '../app/globals.css'
 
 const preview: Preview = {
+  // Stories render in the marketing palette, matching app/(site)/layout.tsx.
+  decorators: [
+    (Story) => (
+      <div className="theme-site">
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     controls: {
       matchers: {

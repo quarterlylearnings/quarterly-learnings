@@ -1,0 +1,247 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`email templates > duplicatePurchaseAlert 1`] = `
+{
+  "html": "<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Duplicate purchase: jordan@example.com, AI Tool Survey</title></head>
+<body style="margin:0;padding:24px;font-family:Helvetica,Arial,sans-serif;"><p>jordan@example.com bought AI Tool Survey again while they already had active access. No new enrollment was created.</p>
+<p>Stripe Checkout session: cs_test_123<br><a href="https://dashboard.stripe.com/test/checkout/sessions/cs_test_123" style="color:#14281D;text-decoration:underline;word-break:break-all;">https://dashboard.stripe.com/test/checkout/sessions/cs_test_123</a></p>
+<p>Refund in Stripe if the purchase was a mistake.</p></body>
+</html>",
+  "subject": "Duplicate purchase: jordan@example.com, AI Tool Survey",
+  "text": "jordan@example.com bought AI Tool Survey again while they already had active access. No new enrollment was created.
+
+Stripe Checkout session: cs_test_123
+https://dashboard.stripe.com/test/checkout/sessions/cs_test_123
+
+Refund in Stripe if the purchase was a mistake.",
+}
+`;
+
+exports[`email templates > enrolledLogIn without a name falls back to "Hello," 1`] = `
+{
+  "html": "<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You&#39;re enrolled in AI Tool Survey</title>
+</head>
+<body style="margin:0;padding:0;background:#ffffff;font-family:'Red Hat Display',Helvetica,Arial,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
+        <tr>
+          <td style="padding-bottom:24px;">
+            <img src="https://quarterlylearnings.com/quarterly-learnings-logo@3x.png" width="64" height="64" alt="Quarterly Learnings" style="display:block;border:0;">
+          </td>
+        </tr>
+        <tr>
+          <td><p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">Hello,</p>
+<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">Your payment went through and you&#39;re enrolled in AI Tool Survey. You already have a Quarterly Learnings account with this email address, so log in to start reading.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 24px;">
+  <tr>
+    <td style="background:#FFDB00;border-radius:6px;">
+      <a href="https://quarterlylearnings.com/login" style="display:inline-block;padding:12px 24px;font-size:16px;font-weight:600;color:#14281D;text-decoration:none;">Log in</a>
+    </td>
+  </tr>
+</table>
+<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">If you have a question about the course, reply to this email.</p></td>
+        </tr>
+        <tr>
+          <td style="padding-top:24px;border-top:1px solid #e5e5e5;font-size:13px;line-height:20px;color:#6E633D;">
+            Quarterly Learnings · <a href="https://quarterlylearnings.com" style="color:#6E633D;">quarterlylearnings.com</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>",
+  "subject": "You're enrolled in AI Tool Survey",
+  "text": "Hello,
+
+Your payment went through and you're enrolled in AI Tool Survey. You already have a Quarterly Learnings account with this email address, so log in to start reading.
+
+Log in: https://quarterlylearnings.com/login
+
+If you have a question about the course, reply to this email.
+
+--
+Quarterly Learnings · quarterlylearnings.com",
+}
+`;
+
+exports[`email templates > passwordReset 1`] = `
+{
+  "html": "<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reset your Quarterly Learnings password</title>
+</head>
+<body style="margin:0;padding:0;background:#ffffff;font-family:'Red Hat Display',Helvetica,Arial,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
+        <tr>
+          <td style="padding-bottom:24px;">
+            <img src="https://quarterlylearnings.com/quarterly-learnings-logo@3x.png" width="64" height="64" alt="Quarterly Learnings" style="display:block;border:0;">
+          </td>
+        </tr>
+        <tr>
+          <td><p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">Someone asked to reset the password for this account. Use the link below to choose a new one.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 24px;">
+  <tr>
+    <td style="background:#FFDB00;border-radius:6px;">
+      <a href="https://quarterlylearnings.com/reset-password?token=abc" style="display:inline-block;padding:12px 24px;font-size:16px;font-weight:600;color:#14281D;text-decoration:none;">Reset your password</a>
+    </td>
+  </tr>
+</table>
+<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">The link works for 1 hour. If it has expired, request a new one at <a href="https://quarterlylearnings.com/forgot-password" style="color:#14281D;text-decoration:underline;word-break:break-all;">https://quarterlylearnings.com/forgot-password</a>. If you didn&#39;t ask for this, you can ignore this email and your password will stay the same.</p></td>
+        </tr>
+        <tr>
+          <td style="padding-top:24px;border-top:1px solid #e5e5e5;font-size:13px;line-height:20px;color:#6E633D;">
+            Quarterly Learnings · <a href="https://quarterlylearnings.com" style="color:#6E633D;">quarterlylearnings.com</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>",
+  "subject": "Reset your Quarterly Learnings password",
+  "text": "Someone asked to reset the password for this account. Use the link below to choose a new one.
+
+Reset your password: https://quarterlylearnings.com/reset-password?token=abc
+
+The link works for 1 hour. If it has expired, request a new one at https://quarterlylearnings.com/forgot-password. If you didn't ask for this, you can ignore this email and your password will stay the same.
+
+--
+Quarterly Learnings · quarterlylearnings.com",
+}
+`;
+
+exports[`email templates > seatInvite uses singular copy for one seat 1`] = `
+{
+  "html": "<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your team&#39;s invite link for AI Tool Survey</title>
+</head>
+<body style="margin:0;padding:0;background:#ffffff;font-family:'Red Hat Display',Helvetica,Arial,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
+        <tr>
+          <td style="padding-bottom:24px;">
+            <img src="https://quarterlylearnings.com/quarterly-learnings-logo@3x.png" width="64" height="64" alt="Quarterly Learnings" style="display:block;border:0;">
+          </td>
+        </tr>
+        <tr>
+          <td><p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">Hello,</p>
+<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">Thank you for buying 1 seat in AI Tool Survey for Example Co. Share the link below with the people you want to enroll. Each person logs in or creates an account, and the link gives them a seat until it is claimed.</p>
+<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;"><a href="https://quarterlylearnings.com/join/token" style="color:#14281D;text-decoration:underline;word-break:break-all;">https://quarterlylearnings.com/join/token</a></p>
+<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">You&#39;re enrolled too, and your access doesn&#39;t use a seat. To see who has claimed a seat, go to your account page.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 24px;">
+  <tr>
+    <td style="background:#FFDB00;border-radius:6px;">
+      <a href="https://quarterlylearnings.com/account" style="display:inline-block;padding:12px 24px;font-size:16px;font-weight:600;color:#14281D;text-decoration:none;">View seats</a>
+    </td>
+  </tr>
+</table></td>
+        </tr>
+        <tr>
+          <td style="padding-top:24px;border-top:1px solid #e5e5e5;font-size:13px;line-height:20px;color:#6E633D;">
+            Quarterly Learnings · <a href="https://quarterlylearnings.com" style="color:#6E633D;">quarterlylearnings.com</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>",
+  "subject": "Your team's invite link for AI Tool Survey",
+  "text": "Hello,
+
+Thank you for buying 1 seat in AI Tool Survey for Example Co. Share the link below with the people you want to enroll. Each person logs in or creates an account, and the link gives them a seat until it is claimed.
+
+https://quarterlylearnings.com/join/token
+
+You're enrolled too, and your access doesn't use a seat. To see who has claimed a seat, go to your account page.
+
+View seats: https://quarterlylearnings.com/account
+
+--
+Quarterly Learnings · quarterlylearnings.com",
+}
+`;
+
+exports[`email templates > welcomeSetPassword 1`] = `
+{
+  "html": "<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your access to AI Tool Survey is ready</title>
+</head>
+<body style="margin:0;padding:0;background:#ffffff;font-family:'Red Hat Display',Helvetica,Arial,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
+        <tr>
+          <td style="padding-bottom:24px;">
+            <img src="https://quarterlylearnings.com/quarterly-learnings-logo@3x.png" width="64" height="64" alt="Quarterly Learnings" style="display:block;border:0;">
+          </td>
+        </tr>
+        <tr>
+          <td><p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">Hi Jordan,</p>
+<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">Thank you for enrolling in AI Tool Survey. We created a Quarterly Learnings account for you with this email address. Set a password to start reading the course.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 24px;">
+  <tr>
+    <td style="background:#FFDB00;border-radius:6px;">
+      <a href="https://quarterlylearnings.com/reset-password?token=abc&amp;welcome=1" style="display:inline-block;padding:12px 24px;font-size:16px;font-weight:600;color:#14281D;text-decoration:none;">Set your password</a>
+    </td>
+  </tr>
+</table>
+<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">This link works for 72 hours. If it has expired, you can request a new one at <a href="https://quarterlylearnings.com/forgot-password" style="color:#14281D;text-decoration:underline;word-break:break-all;">https://quarterlylearnings.com/forgot-password</a>.</p>
+<p style="margin:0 0 16px;font-size:16px;line-height:24px;color:#14281D;">If you have a question about the course, reply to this email.</p></td>
+        </tr>
+        <tr>
+          <td style="padding-top:24px;border-top:1px solid #e5e5e5;font-size:13px;line-height:20px;color:#6E633D;">
+            Quarterly Learnings · <a href="https://quarterlylearnings.com" style="color:#6E633D;">quarterlylearnings.com</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>",
+  "subject": "Your access to AI Tool Survey is ready",
+  "text": "Hi Jordan,
+
+Thank you for enrolling in AI Tool Survey. We created a Quarterly Learnings account for you with this email address. Set a password to start reading the course.
+
+Set your password: https://quarterlylearnings.com/reset-password?token=abc&welcome=1
+
+This link works for 72 hours. If it has expired, you can request a new one at https://quarterlylearnings.com/forgot-password.
+
+If you have a question about the course, reply to this email.
+
+--
+Quarterly Learnings · quarterlylearnings.com",
+}
+`;
