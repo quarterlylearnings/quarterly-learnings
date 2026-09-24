@@ -2,26 +2,40 @@
   "name": "quarterly-learnings",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
+    "dev:local": "node scripts/test-server.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test:e2e": "playwright test",
-    "email:preview": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON scripts/preview-emails.ts"
+    "payload": "payload",
+    "generate:types": "payload generate:types",
+    "generate:importmap": "payload generate:importmap",
+    "email:preview": "node scripts/preview-emails.ts"
   },
   "dependencies": {
+    "@payloadcms/db-mongodb": "3.90.2",
+    "@payloadcms/email-resend": "3.90.2",
+    "@payloadcms/next": "3.90.2",
+    "@payloadcms/richtext-lexical": "3.90.2",
     "@tailwindcss/postcss": "^4.2.2",
     "class-variance-authority": "^0.7.1",
+    "graphql": "^16.14.2",
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.7.0",
     "next": "^16.3.6",
+    "payload": "3.90.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "remark": "^14.0.2",
-    "remark-html": "^15.0.1"
+    "remark-html": "^15.0.1",
+    "sharp": "^0.35.4"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
@@ -34,10 +48,12 @@
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.3.6",
+    "mongodb-memory-server": "^11.3.0",
     "postcss": "^8.4.21",
     "storybook": "^10.3.4",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2",
-    "vite": "^8.0.3"
+    "vite": "^8.0.3",
+    "vitest": "^5.0.1"
   }
 }
