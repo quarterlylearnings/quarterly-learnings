@@ -81,7 +81,7 @@ if (sendIndex !== -1) {
       body: JSON.stringify({
         from: 'Quarterly Learnings <learn@quarterlylearnings.com>',
         to,
-        reply_to: 'brandon@quarterlylearnings.com',
+        reply_to: 'info@quarterlylearnings.com',
         subject: `[preview] ${email.subject}`,
         html: email.html,
         text: email.text,
