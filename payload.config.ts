@@ -5,6 +5,7 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { Courses } from './payload/collections/Courses.ts'
 import { Users } from './payload/collections/Users.ts'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -24,7 +25,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users],
+  collections: [Users, Courses],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
