@@ -1,12 +1,39 @@
 import type { CollectionConfig } from 'payload'
+import { passwordReset } from '../email/templates.ts'
 import { isAdminField, userIsAdmin } from '../access/isAdmin.ts'
 import { isAdminOrSelf } from '../access/isAdminOrSelf.ts'
 
 export const ROLES = ['admin', 'instructor', 'learner'] as const
 
+/**
+ * Password-reset links live this long. The post-checkout welcome email (DEV-97)
+ * reuses the same token, so it is longer than Payload's 1-hour default. Email
+ * copy reads this value, so the two can't disagree.
+ */
+export const RESET_TOKEN_HOURS = 72
+
+const siteUrl = () => (process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000').replace(/\/$/, '')
+
+const resetEmail = (token = '') =>
+  passwordReset({
+    resetUrl: `${siteUrl()}/reset-password?token=${encodeURIComponent(token)}`,
+    forgotPasswordUrl: `${siteUrl()}/forgot-password`,
+    expiresInHours: RESET_TOKEN_HOURS,
+  })
+
 export const Users: CollectionConfig = {
   slug: 'users',
-  auth: true,
+  auth: {
+    cookies: {
+      sameSite: 'Lax',
+      secure: process.env.NODE_ENV === 'production',
+    },
+    forgotPassword: {
+      expiration: RESET_TOKEN_HOURS * 60 * 60 * 1000,
+      generateEmailSubject: () => resetEmail().subject,
+      generateEmailHTML: (args) => resetEmail(args?.token).html,
+    },
+  },
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['email', 'name', 'role'],
