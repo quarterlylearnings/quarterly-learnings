@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   // a regular `next dev` is already using .next (Next 16 allows one per distDir).
   distDir: process.env.NEXT_DIST_DIR || '.next',
   experimental: {
-    // Multiple root layouts ((site), (learn), (payload)) need a routing-level 404.
+    // Multiple root layouts ((site), (ledger), (payload)) need a routing-level 404.
     globalNotFound: true,
   },
 }

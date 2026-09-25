@@ -1,4 +1,4 @@
-// Renders every QL Learn email with sample data to tmp/email-preview/.
+// Renders every QL Ledger email with sample data to tmp/email-preview/.
 //   node scripts/preview-emails.ts                 write HTML + text previews
 //   node scripts/preview-emails.ts --send <email>  also send each one via Resend (needs RESEND_API_KEY)
 
@@ -79,7 +79,7 @@ if (sendIndex !== -1) {
       method: 'POST',
       headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'Quarterly Learnings <learn@quarterlylearnings.com>',
+        from: 'Quarterly Learnings <ledger@quarterlylearnings.com>',
         to,
         reply_to: 'info@quarterlylearnings.com',
         subject: `[preview] ${email.subject}`,

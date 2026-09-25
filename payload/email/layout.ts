@@ -1,4 +1,4 @@
-// Shared HTML shell for QL Learn transactional email.
+// Shared HTML shell for QL Ledger transactional email.
 // Dependency-free on purpose: templates render before Payload is installed (DEV-82).
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SERVER_URL || 'https://quarterlylearnings.com').replace(/\/$/, '')

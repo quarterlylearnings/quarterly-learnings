@@ -3,7 +3,7 @@
 import config from '@payload-config'
 import { login } from '@payloadcms/next/auth'
 import { revalidatePath } from 'next/cache'
-import { getViewer } from '@/lib/learn/payload'
+import { getViewer } from '@/lib/ledger/payload'
 
 export type AccountFormState = { error?: string; success?: string; name?: string }
 

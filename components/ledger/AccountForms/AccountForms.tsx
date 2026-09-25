@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
-import { changePasswordAction, updateNameAction, type AccountFormState } from '@/app/(learn)/account/actions'
+import { changePasswordAction, updateNameAction, type AccountFormState } from '@/app/(ledger)/account/actions'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { StatusMessage } from '@/components/ui/StatusMessage'

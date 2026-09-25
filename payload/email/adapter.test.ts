@@ -23,6 +23,6 @@ describe('emailAdapter', () => {
 
     const [sent] = readFileSync(file, 'utf8').trim().split('\n').map((line) => JSON.parse(line))
     expect(sent).toMatchObject({ to: 'learner@example.com', subject: 'Hello', replyTo: EMAIL_REPLY_TO })
-    expect(adapter.defaultFromAddress).toBe('learn@quarterlylearnings.com')
+    expect(adapter.defaultFromAddress).toBe('ledger@quarterlylearnings.com')
   })
 })

@@ -1,4 +1,4 @@
-// Transactional email copy for QL Learn (DEV-82). Approved by Brandon.
+// Transactional email copy for QL Ledger (DEV-82). Approved by Brandon.
 // Each template returns { subject, html, text }; senders set from/to/reply-to.
 
 import { TEXT_FOOTER, button, escapeHtml, greeting, layout, link, paragraph, plainLayout } from './layout.ts'

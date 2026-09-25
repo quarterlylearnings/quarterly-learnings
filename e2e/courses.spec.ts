@@ -24,7 +24,7 @@ test.describe('Course catalog (/courses)', () => {
     expect(body.docs).toHaveLength(0)
   })
 
-  test('uses the QL Learn yellow primary', async ({ page }) => {
+  test('uses the QL Ledger yellow primary', async ({ page }) => {
     await page.goto('/courses')
     const primary = await page.evaluate(() =>
       getComputedStyle(document.body).getPropertyValue('--color-primary').trim().toLowerCase(),

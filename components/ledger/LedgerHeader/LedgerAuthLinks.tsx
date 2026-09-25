@@ -1,11 +1,11 @@
 import NextLink from 'next/link'
-import { logoutAction } from '@/app/(learn)/(auth)/actions'
+import { logoutAction } from '@/app/(ledger)/(auth)/actions'
 import { Button } from '@/components/ui/Button'
 
 const linkClass = 'font-sans text-small font-medium text-tertiary hover:underline'
 
-/** Right-hand side of LearnHeader: log in / sign up, or account / log out. */
-export function LearnAuthLinks({ signedIn }: { signedIn: boolean }) {
+/** Right-hand side of LedgerHeader: log in / sign up, or account / log out. */
+export function LedgerAuthLinks({ signedIn }: { signedIn: boolean }) {
   if (!signedIn) {
     return (
       <>

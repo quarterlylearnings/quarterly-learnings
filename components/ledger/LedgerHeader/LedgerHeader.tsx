@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import NextLink from 'next/link'
 
-/** Header for (learn) pages. `actions` is the right-hand slot (auth links, filled in DEV-85). */
-export function LearnHeader({ actions }: { actions?: React.ReactNode }) {
+/** Header for (ledger) pages. `actions` is the right-hand slot (auth links, filled in DEV-85). */
+export function LedgerHeader({ actions }: { actions?: React.ReactNode }) {
   return (
     <header className="border-b border-black/10 bg-white">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
