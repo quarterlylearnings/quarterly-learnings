@@ -3,7 +3,7 @@ export function Logo() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
       <img src="/quarterly-learnings-logo@3x.png" alt="" width={48} height={48} />
-      <span style={{ fontSize: 20, fontWeight: 600 }}>QL Learn</span>
+      <span style={{ fontSize: 20, fontWeight: 600 }}>QL Ledger</span>
     </div>
   )
 }

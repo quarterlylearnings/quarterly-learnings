@@ -4,7 +4,7 @@ import config from '@payload-config'
 import { login, logout } from '@payloadcms/next/auth'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
-import { safeNext } from '@/lib/learn/safeNext'
+import { safeNext } from '@/lib/ledger/safeNext'
 
 export type AuthFormState = {
   error?: string

@@ -6,7 +6,7 @@ import { Heading } from '@/components/typography/Heading'
 import { Badge } from '@/components/ui/Badge'
 import { Card, CardBody, CardHeader } from '@/components/ui/Card'
 import { EmptyState } from '@/components/ui/EmptyState'
-import { getViewer } from '@/lib/learn/payload'
+import { getViewer } from '@/lib/ledger/payload'
 
 export const metadata: Metadata = {
   title: 'Courses',

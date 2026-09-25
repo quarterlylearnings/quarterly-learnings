@@ -1,4 +1,4 @@
-// Renders every QL Learn email with sample data to tmp/email-preview/.
+// Renders every QL Ledger email with sample data to tmp/email-preview/.
 //   node scripts/preview-emails.ts                 write HTML + text previews
 //   node scripts/preview-emails.ts --send <email>  also send each one via Resend (needs RESEND_API_KEY)
 

@@ -1,10 +1,10 @@
-import { LearnAuthLinks, LearnHeader } from '@/components/learn/LearnHeader'
+import { LedgerAuthLinks, LedgerHeader } from '@/components/ledger/LedgerHeader'
 import { RootShell, rootMetadata } from '@/components/layout/RootShell'
-import { getViewer } from '@/lib/learn/payload'
+import { getViewer } from '@/lib/ledger/payload'
 
 export const metadata = rootMetadata
 
-export default async function LearnLayout({
+export default async function LedgerLayout({
   children,
 }: {
   children: React.ReactNode
@@ -12,7 +12,7 @@ export default async function LearnLayout({
   const { user } = await getViewer()
   return (
     <RootShell>
-      <LearnHeader actions={<LearnAuthLinks signedIn={Boolean(user)} />} />
+      <LedgerHeader actions={<LedgerAuthLinks signedIn={Boolean(user)} />} />
       <main className="min-h-[calc(100vh-4rem)] bg-white">{children}</main>
     </RootShell>
   )

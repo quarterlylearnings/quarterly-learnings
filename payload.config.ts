@@ -16,7 +16,7 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: dirname },
     meta: {
-      titleSuffix: '— QL Learn Admin',
+      titleSuffix: '— QL Ledger Admin',
       icons: [{ rel: 'icon', url: '/favicon.png' }],
     },
     components: {

@@ -3,7 +3,7 @@ import { headers } from 'next/headers'
 import { getPayload } from 'payload'
 
 /**
- * Local API access for (learn) pages. Every learner-facing read must pass
+ * Local API access for (ledger) pages. Every learner-facing read must pass
  * `{ user, overrideAccess: false }` — the Local API skips access control by
  * default (PRD §4.5).
  */

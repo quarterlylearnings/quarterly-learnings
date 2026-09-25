@@ -9,7 +9,7 @@ test.describe('Payload admin (/admin)', () => {
     await page.getByRole('button', { name: /log ?in/i }).click()
 
     await expect(page).toHaveURL(/\/admin\/?$/)
-    await expect(page).toHaveTitle(/QL Learn Admin/)
+    await expect(page).toHaveTitle(/QL Ledger Admin/)
     await expect(page.getByRole('link', { name: /users/i }).first()).toBeVisible()
   })
 

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import NextLink from 'next/link'
-import { ResetPasswordForm } from '@/components/learn/AuthForms'
+import { ResetPasswordForm } from '@/components/ledger/AuthForms'
 import { Body } from '@/components/typography/Body'
 import { Heading } from '@/components/typography/Heading'
 

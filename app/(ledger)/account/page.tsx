@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import { NameForm, PasswordForm } from '@/components/learn/AccountForms'
+import { NameForm, PasswordForm } from '@/components/ledger/AccountForms'
 import { Body } from '@/components/typography/Body'
 import { Heading } from '@/components/typography/Heading'
-import { getViewer } from '@/lib/learn/payload'
+import { getViewer } from '@/lib/ledger/payload'
 
 export const metadata: Metadata = { title: 'Account' }
 

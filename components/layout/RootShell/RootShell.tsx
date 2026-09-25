@@ -24,7 +24,7 @@ export const rootMetadata: Metadata = {
 }
 
 /**
- * Shared <html>/<body> for every root layout ((site), (learn), global-not-found)
+ * Shared <html>/<body> for every root layout ((site), (ledger), global-not-found)
  * so fonts, global styles and metadata can't drift between them.
  */
 export function RootShell({

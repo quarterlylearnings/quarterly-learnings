@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import { SignupForm } from '@/components/learn/AuthForms'
+import { SignupForm } from '@/components/ledger/AuthForms'
 import { Heading } from '@/components/typography/Heading'
-import { getViewer } from '@/lib/learn/payload'
-import { safeNext } from '@/lib/learn/safeNext'
+import { getViewer } from '@/lib/ledger/payload'
+import { safeNext } from '@/lib/ledger/safeNext'
 
 export const metadata: Metadata = { title: 'Create an account' }
 

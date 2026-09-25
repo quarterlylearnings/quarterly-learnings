@@ -8,7 +8,7 @@ import {
   resetPasswordAction,
   signupAction,
   type AuthFormState,
-} from '@/app/(learn)/(auth)/actions'
+} from '@/app/(ledger)/(auth)/actions'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { StatusMessage } from '@/components/ui/StatusMessage'
