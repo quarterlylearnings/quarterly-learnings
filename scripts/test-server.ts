@@ -20,7 +20,7 @@ const replSet = await MongoMemoryReplSet.create({ replSet: { count: 1 } })
 
 const env = {
   ...process.env,
-  DATABASE_URI: replSet.getUri('ql-learn-local'),
+  DATABASE_URI: replSet.getUri('ql-ledger-local'),
   PAYLOAD_SECRET: process.env.PAYLOAD_SECRET || 'local-dev-secret',
   NEXT_PUBLIC_SERVER_URL: `http://localhost:${port}`,
   // Own build dir: Next 16 allows one `next dev` per distDir.

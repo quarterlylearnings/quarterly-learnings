@@ -6,7 +6,7 @@ let replSet: MongoMemoryReplSet | undefined
 
 export async function setup() {
   replSet = await MongoMemoryReplSet.create({ replSet: { count: 1 } })
-  process.env.DATABASE_URI = replSet.getUri('ql-learn-test')
+  process.env.DATABASE_URI = replSet.getUri('ql-ledger-test')
   process.env.PAYLOAD_SECRET = 'test-secret'
 }
 

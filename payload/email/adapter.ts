@@ -2,7 +2,7 @@ import { appendFileSync } from 'node:fs'
 import { resendAdapter } from '@payloadcms/email-resend'
 import type { EmailAdapter, SendEmailOptions } from 'payload'
 
-export const EMAIL_FROM_ADDRESS = 'learn@quarterlylearnings.com' // send-only, no inbox
+export const EMAIL_FROM_ADDRESS = 'ledger@quarterlylearnings.com' // send-only, no inbox
 export const EMAIL_FROM_NAME = 'Quarterly Learnings'
 export const EMAIL_REPLY_TO = 'info@quarterlylearnings.com'
 
