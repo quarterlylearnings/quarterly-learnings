@@ -4,10 +4,7 @@ import { waitForIndexes } from '../payload/utilities/waitForIndexes.ts'
 
 let ready: Promise<Payload> | undefined
 
-/**
- * Payload Local API bound to the in-memory test database. Waits for Mongoose
- * index builds so the first transactional write doesn't race them for a lock.
- */
+/** Payload Local API bound to the in-memory test database, with indexes built. */
 export function getTestPayload(): Promise<Payload> {
   ready ??= getPayload({ config }).then(async (payload) => {
     await waitForIndexes(payload)
