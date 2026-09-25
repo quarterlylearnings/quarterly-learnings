@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { EMAIL_CAPTURE_FILE } from './e2e/helpers/emails.ts'
 
 // E2E runs against scripts/test-server.ts: an in-memory MongoDB with seeded
 // fixtures (payload/seed/e2e.ts), on its own port so it never reuses a dev
@@ -26,7 +27,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'node scripts/test-server.ts',
-    env: { PORT: String(PORT) },
+    env: { PORT: String(PORT), EMAIL_CAPTURE_FILE },
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 180 * 1000,

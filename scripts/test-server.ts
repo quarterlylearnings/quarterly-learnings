@@ -4,9 +4,18 @@
 
 import { spawn } from 'node:child_process'
 import { once } from 'node:events'
+import { mkdirSync, writeFileSync } from 'node:fs'
+import path from 'node:path'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
 
 const port = process.env.PORT || '3000'
+
+// Playwright passes EMAIL_CAPTURE_FILE so specs can read sent emails; start it empty.
+if (process.env.EMAIL_CAPTURE_FILE) {
+  mkdirSync(path.dirname(process.env.EMAIL_CAPTURE_FILE), { recursive: true })
+  writeFileSync(process.env.EMAIL_CAPTURE_FILE, '')
+}
+
 const replSet = await MongoMemoryReplSet.create({ replSet: { count: 1 } })
 
 const env = {

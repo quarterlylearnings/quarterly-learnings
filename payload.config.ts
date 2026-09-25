@@ -6,6 +6,7 @@ import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
 import { Courses } from './payload/collections/Courses.ts'
+import { emailAdapter } from './payload/email/adapter.ts'
 import { Users } from './payload/collections/Users.ts'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -37,5 +38,6 @@ export default buildConfig({
     // Serverless functions each hold a pool; keep it small (PRD §4.10).
     connectOptions: { maxPoolSize: 10 },
   }),
+  email: emailAdapter(),
   sharp,
 })
