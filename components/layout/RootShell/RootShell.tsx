@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Lora, Red_Hat_Display } from 'next/font/google'
-import './globals.css'
+import '@/app/globals.css'
 
 const lora = Lora({
   subsets: ['latin'],
@@ -14,7 +14,7 @@ const redHatDisplay = Red_Hat_Display({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
+export const rootMetadata: Metadata = {
   title: {
     default: 'Quarterly Learnings',
     template: '%s — Quarterly Learnings',
@@ -23,14 +23,20 @@ export const metadata: Metadata = {
   icons: { icon: '/favicon.png' },
 }
 
-export default function RootLayout({
+/**
+ * Shared <html>/<body> for every root layout ((site), (learn), global-not-found)
+ * so fonts, global styles and metadata can't drift between them.
+ */
+export function RootShell({
   children,
+  bodyClassName,
 }: {
   children: React.ReactNode
+  bodyClassName?: string
 }) {
   return (
     <html lang="en" className={`${lora.variable} ${redHatDisplay.variable}`}>
-      <body>{children}</body>
+      <body className={bodyClassName}>{children}</body>
     </html>
   )
 }

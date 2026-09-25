@@ -1,4 +1,11 @@
 import { defineConfig, devices } from '@playwright/test'
+import { EMAIL_CAPTURE_FILE } from './e2e/helpers/emails.ts'
+
+// E2E runs against scripts/test-server.ts: an in-memory MongoDB with seeded
+// fixtures (payload/seed/e2e.ts), on its own port so it never reuses a dev
+// server that points at Atlas.
+const PORT = 3100
+const baseURL = `http://localhost:${PORT}`
 
 export default defineConfig({
   testDir: './e2e',
@@ -8,7 +15,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL,
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
   },
@@ -19,9 +26,10 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
+    command: 'node scripts/test-server.ts',
+    env: { PORT: String(PORT), EMAIL_CAPTURE_FILE },
+    url: baseURL,
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
+    timeout: 180 * 1000,
   },
 })
