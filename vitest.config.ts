@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['**/*.test.ts'],
-    exclude: ['node_modules/**', 'e2e/**', '.next/**'],
+    exclude: ['**/node_modules/**', 'e2e/**', '.next/**', '.next-local/**', 'storybook-static/**'],
     globalSetup: ['./test/globalSetup.ts'],
     // One in-memory database is shared, so spec files run one at a time.
     fileParallelism: false,
