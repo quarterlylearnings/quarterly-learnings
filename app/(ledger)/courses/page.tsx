@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import { BookOpen } from 'lucide-react'
+import { CourseCover } from '@/components/ledger/CourseCover'
 import { Container } from '@/components/layout/Container'
 import { Body } from '@/components/typography/Body'
 import { Heading } from '@/components/typography/Heading'
 import { Badge } from '@/components/ui/Badge'
-import { Card, CardBody, CardHeader } from '@/components/ui/Card'
+import { Card, CardBody, CardHeader, CardMedia } from '@/components/ui/Card'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { getViewer } from '@/lib/ledger/payload'
 
@@ -42,6 +43,11 @@ export default async function CoursesPage() {
           {courses.map((course) => (
             <li key={course.id}>
               <Card variant="interactive" href={`/courses/${course.slug}`} className="block h-full">
+                {course.coverImage && (
+                  <CardMedia>
+                    <CourseCover image={course.coverImage} />
+                  </CardMedia>
+                )}
                 <CardHeader>
                   <Badge variant="subtle" size="sm" className="mb-3 capitalize">
                     {course.level}

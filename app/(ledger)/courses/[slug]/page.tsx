@@ -5,6 +5,7 @@ import { Container } from '@/components/layout/Container'
 import { Body } from '@/components/typography/Body'
 import { Caption } from '@/components/typography/Caption'
 import { Heading } from '@/components/typography/Heading'
+import { CourseCover } from '@/components/ledger/CourseCover'
 import { OfferingCard } from '@/components/ledger/OfferingCard'
 import { Badge } from '@/components/ui/Badge'
 import { getCourseBySlug, getOutline } from '@/lib/ledger/courses'
@@ -36,6 +37,7 @@ export default async function CoursePage({ params, searchParams }: Props) {
   return (
     <Container className="py-16">
       <div className="max-w-3xl">
+        <CourseCover image={course.coverImage} priority className="mb-10 rounded-lg" />
         <Badge variant="subtle" size="sm" className="mb-4 capitalize">
           {course.level}
         </Badge>

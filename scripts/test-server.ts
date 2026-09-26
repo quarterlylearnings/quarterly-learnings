@@ -27,6 +27,8 @@ const env = {
   DATABASE_URI: replSet.getUri('ql-ledger-local'),
   PAYLOAD_SECRET: process.env.PAYLOAD_SECRET || 'local-dev-secret',
   NEXT_PUBLIC_SERVER_URL: `http://localhost:${port}`,
+  // Uploads stay on local disk (tmp/media), even when .env.local has R2 keys.
+  MEDIA_STORAGE: 'local',
   // Own build dir: Next 16 allows one `next dev` per distDir.
   NEXT_DIST_DIR: '.next-local',
 }

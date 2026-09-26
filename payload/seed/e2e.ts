@@ -1,4 +1,5 @@
 import type { Payload } from 'payload'
+import { placeholderImage } from '../utilities/placeholderImage.ts'
 import { block, richText } from '../utilities/richText.ts'
 
 export const E2E_PASSWORD = 'e2e-password-123'
@@ -33,6 +34,12 @@ export const e2eCourses = {
     description: 'A plain-language tour of the AI tools teams are using and what each is good for.',
     level: 'beginner',
   },
+  noCover: {
+    title: 'Writing Prompts That Work',
+    slug: 'writing-prompts-that-work',
+    description: 'How to ask an AI tool for what you need, with examples from everyday work.',
+    level: 'intermediate',
+  },
   draft: {
     title: 'Unreleased Draft Course',
     slug: 'unreleased-draft-course',
@@ -47,6 +54,9 @@ export const e2eCodeBlock = {
   code: "const summary = await assistant.summarize('Q3 report')",
   caption: 'Ask an assistant for a summary.',
 } as const
+
+/** Cover image of the published course (`noCover` has none). */
+export const e2eCover = { alt: 'Yellow cover for the AI Tool Survey course', filename: 'ai-tool-survey-cover.png' } as const
 
 /** Lessons of the published course, in outline order. */
 export const e2eLessons = {
@@ -133,7 +143,16 @@ export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
     learners[key] = user.id
   }
 
-  const course = await payload.create({ collection: 'courses', data: { ...e2eCourses.published, _status: 'published' } })
+  const cover = await payload.create({
+    collection: 'media',
+    data: { alt: e2eCover.alt },
+    file: await placeholderImage(e2eCover.filename),
+  })
+  const course = await payload.create({
+    collection: 'courses',
+    data: { ...e2eCourses.published, coverImage: cover.id, _status: 'published' },
+  })
+  await payload.create({ collection: 'courses', data: { ...e2eCourses.noCover, _status: 'published' } })
   const draftCourse = await payload.create({
     collection: 'courses',
     data: { ...e2eCourses.draft, _status: 'draft' },
