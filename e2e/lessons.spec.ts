@@ -13,11 +13,12 @@ test.describe('Course page (/courses/[slug])', () => {
     await expect(main(page).getByText(e2eCourses.published.level, { exact: true })).toBeVisible()
 
     const items = main(page).getByRole('listitem')
-    await expect(items).toHaveCount(2)
+    await expect(items).toHaveCount(3)
     await expect(items.nth(0)).toContainText(e2eLessons.preview.title)
     await expect(items.nth(0)).toContainText('Free preview')
     await expect(items.nth(1)).toContainText(e2eLessons.locked.title)
     await expect(items.nth(1)).not.toContainText('Free preview')
+    await expect(items.nth(2)).toContainText(e2eLessons.rollout.title)
     await expect(main(page)).not.toContainText(e2eLessons.draft.title)
   })
 

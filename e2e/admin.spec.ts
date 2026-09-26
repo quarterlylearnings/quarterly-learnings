@@ -50,4 +50,12 @@ test.describe('Payload admin (/admin)', () => {
     await page.keyboard.type('/code')
     await expect(page.getByText('Code Example', { exact: true }).first()).toBeVisible()
   })
+
+  test('enrollment form offers learner, offering, source, status and access date', async ({ page }) => {
+    await adminLogIn(page)
+    await page.goto('/admin/collections/enrollments/create')
+    for (const field of ['learner', 'offering', 'course', 'source', 'status', 'accessExpiresAt']) {
+      await expect(page.locator(`#field-${field}`)).toBeVisible()
+    }
+  })
 })
