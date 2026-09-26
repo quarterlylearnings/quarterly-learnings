@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     courses: Course;
+    lessons: Lesson;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +79,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     courses: CoursesSelect<false> | CoursesSelect<true>;
+    lessons: LessonsSelect<false> | LessonsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -164,6 +166,46 @@ export interface Course {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lessons".
+ */
+export interface Lesson {
+  id: string;
+  title: string;
+  /**
+   * URL segment, unique within the course. Generated from the title when left blank.
+   */
+  slug: string;
+  course: string | Course;
+  /**
+   * Position in the course outline, lowest first.
+   */
+  order: number;
+  estimatedMinutes?: number | null;
+  /**
+   * Free preview: anyone can read this lesson without enrolling.
+   */
+  preview?: boolean | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -193,6 +235,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'courses';
         value: string | Course;
+      } | null)
+    | ({
+        relationTo: 'lessons';
+        value: string | Lesson;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -270,6 +316,22 @@ export interface CoursesSelect<T extends boolean = true> {
   slug?: T;
   description?: T;
   level?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lessons_select".
+ */
+export interface LessonsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  course?: T;
+  order?: T;
+  estimatedMinutes?: T;
+  preview?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
