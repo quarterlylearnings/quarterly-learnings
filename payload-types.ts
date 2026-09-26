@@ -388,6 +388,18 @@ export interface CollectionsWidget {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CodeBlockFields".
+ */
+export interface CodeBlockFields {
+  language: 'javascript' | 'typescript' | 'python' | 'bash' | 'html' | 'css' | 'json' | 'text';
+  code: string;
+  caption?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'codeBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {

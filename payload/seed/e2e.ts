@@ -1,5 +1,5 @@
 import type { Payload } from 'payload'
-import { richText } from '../utilities/richText.ts'
+import { block, richText } from '../utilities/richText.ts'
 
 export const E2E_PASSWORD = 'e2e-password-123'
 
@@ -21,6 +21,13 @@ export const e2eCourses = {
     description: 'This course is still a draft and must not appear in the catalog.',
     level: 'advanced',
   },
+} as const
+
+/** Code Example block seeded into the preview lesson. */
+export const e2eCodeBlock = {
+  language: 'javascript',
+  code: "const summary = await assistant.summarize('Q3 report')",
+  caption: 'Ask an assistant for a summary.',
 } as const
 
 /** Lessons of the published course, in outline order. */
@@ -62,9 +69,10 @@ export async function seedE2E(payload: Payload) {
 
   for (const [key, { body, ...lesson }] of Object.entries(e2eLessons)) {
     const draft = key === 'draft'
+    const blocks = key === 'preview' ? [block('codeBlock', e2eCodeBlock, '66f5a0000000000000000001')] : []
     await payload.create({
       collection: 'lessons',
-      data: { ...lesson, course: course.id, content: richText([body]), _status: draft ? 'draft' : 'published' },
+      data: { ...lesson, course: course.id, content: richText([body], blocks), _status: draft ? 'draft' : 'published' },
       draft,
     })
   }

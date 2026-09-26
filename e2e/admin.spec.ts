@@ -44,5 +44,10 @@ test.describe('Payload admin (/admin)', () => {
     for (const field of ['course', 'order', 'estimatedMinutes', 'preview']) {
       await expect(page.locator(`#field-${field}`)).toBeVisible()
     }
+
+    // Lesson blocks are offered in the editor's slash menu.
+    await page.locator('[contenteditable="true"]').first().click()
+    await page.keyboard.type('/code')
+    await expect(page.getByText('Code Example', { exact: true }).first()).toBeVisible()
   })
 })

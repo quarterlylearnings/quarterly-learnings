@@ -1,6 +1,8 @@
+import { BlocksFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { ValidationError, type CollectionBeforeChangeHook, type CollectionConfig } from 'payload'
 import { canReadLessonContent } from '../access/canReadLessonContent.ts'
 import { isAdmin } from '../access/isAdmin.ts'
+import { CodeBlock } from '../blocks/CodeBlock.ts'
 import { publishedOrAdmin } from '../access/publishedOrAdmin.ts'
 import { slugify } from '../utilities/slugify.ts'
 
@@ -111,6 +113,9 @@ export const Lessons: CollectionConfig = {
       name: 'content',
       type: 'richText',
       access: { read: canReadLessonContent },
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [...defaultFeatures, BlocksFeature({ blocks: [CodeBlock] })],
+      }),
     },
   ],
 }
