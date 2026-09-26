@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     courses: Course;
     lessons: Lesson;
+    offerings: Offering;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     courses: CoursesSelect<false> | CoursesSelect<true>;
     lessons: LessonsSelect<false> | LessonsSelect<true>;
+    offerings: OfferingsSelect<false> | OfferingsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -206,6 +208,38 @@ export interface Lesson {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "offerings".
+ */
+export interface Offering {
+  id: string;
+  /**
+   * For example, "November 2026 cohort".
+   */
+  title: string;
+  course: string | Course;
+  salesState: 'draft' | 'unlisted' | 'on_sale' | 'closed';
+  /**
+   * Leave empty to open sales immediately.
+   */
+  salesOpenAt?: string | null;
+  /**
+   * Leave empty to keep sales open.
+   */
+  salesCloseAt?: string | null;
+  /**
+   * In cents (49900 = $499). Required unless the offering is a Draft.
+   */
+  price?: number | null;
+  /**
+   * Per seat, in cents. Leave empty to turn off team seat purchases.
+   */
+  seatPrice?: number | null;
+  currency: 'usd';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -239,6 +273,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'lessons';
         value: string | Lesson;
+      } | null)
+    | ({
+        relationTo: 'offerings';
+        value: string | Offering;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -335,6 +373,22 @@ export interface LessonsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "offerings_select".
+ */
+export interface OfferingsSelect<T extends boolean = true> {
+  title?: T;
+  course?: T;
+  salesState?: T;
+  salesOpenAt?: T;
+  salesCloseAt?: T;
+  price?: T;
+  seatPrice?: T;
+  currency?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

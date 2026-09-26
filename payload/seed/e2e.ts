@@ -3,9 +3,15 @@ import { block, richText } from '../utilities/richText.ts'
 
 export const E2E_PASSWORD = 'e2e-password-123'
 
+/**
+ * Payload rewrites a user's whole `sessions` array on every login, so parallel
+ * logins as one user can drop a session. Each test that logs in as a seeded
+ * user gets its own; add one here rather than sharing.
+ */
 export const e2eUsers = {
   admin: { email: 'admin@example.com', name: 'Admin User' },
   learner: { email: 'learner@example.com', name: 'Learner User' },
+  panelProbe: { email: 'panel-probe@example.com', name: 'Panel Probe' },
 } as const
 
 export const e2eCourses = {
@@ -58,14 +64,56 @@ export const e2eLessons = {
   },
 } as const
 
+const DAY = 24 * 60 * 60 * 1000
+const daysFromNow = (days: number) => new Date(Date.now() + days * DAY).toISOString()
+
+/** Offerings of the published course, one per sales state and window case. */
+export const e2eOfferings = {
+  onSale: { title: 'Open Cohort', salesState: 'on_sale', price: 49900, seatPrice: 39900, openDays: -7, closeDays: 30 },
+  notYetOpen: { title: 'Upcoming Cohort', salesState: 'on_sale', price: 52500, openDays: 14 },
+  salesEnded: { title: 'Sold Through Cohort', salesState: 'on_sale', price: 44900, openDays: -60, closeDays: -2 },
+  unlisted: { title: 'Early List Cohort', salesState: 'unlisted', price: 39900 },
+  draft: { title: 'Draft Cohort', salesState: 'draft' },
+  closed: { title: 'Closed Cohort', salesState: 'closed', price: 49900 },
+} as const
+
+/** An Unlisted offering of a different (draft) course, for "wrong course" checks. */
+export const e2eOtherCourseOffering = { title: 'Other Course Cohort', salesState: 'unlisted', price: 10000 } as const
+
+type SeedOffering = {
+  title: string
+  salesState: 'draft' | 'unlisted' | 'on_sale' | 'closed'
+  price?: number
+  seatPrice?: number
+  openDays?: number
+  closeDays?: number
+}
+
+const offeringData = (course: string, { openDays, closeDays, ...offering }: SeedOffering) => ({
+  ...offering,
+  course,
+  currency: 'usd' as const,
+  salesOpenAt: openDays === undefined ? undefined : daysFromNow(openDays),
+  salesCloseAt: closeDays === undefined ? undefined : daysFromNow(closeDays),
+})
+
+/** Ids of seeded docs that the public API hides, keyed like the fixtures above. */
+export type E2EFixtureIds = { offerings: Record<keyof typeof e2eOfferings | 'otherCourse', string> }
+
 /** Fixtures for Playwright and `npm run dev:local`. Later slices add their own. */
-export async function seedE2E(payload: Payload) {
+export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
   // First user created becomes admin (Users beforeChange hook).
   await payload.create({ collection: 'users', data: { ...e2eUsers.admin, password: E2E_PASSWORD, role: 'admin' } })
-  await payload.create({ collection: 'users', data: { ...e2eUsers.learner, password: E2E_PASSWORD, role: 'learner' } })
+  for (const learner of [e2eUsers.learner, e2eUsers.panelProbe]) {
+    await payload.create({ collection: 'users', data: { ...learner, password: E2E_PASSWORD, role: 'learner' } })
+  }
 
   const course = await payload.create({ collection: 'courses', data: { ...e2eCourses.published, _status: 'published' } })
-  await payload.create({ collection: 'courses', data: { ...e2eCourses.draft, _status: 'draft' }, draft: true })
+  const draftCourse = await payload.create({
+    collection: 'courses',
+    data: { ...e2eCourses.draft, _status: 'draft' },
+    draft: true,
+  })
 
   for (const [key, { body, ...lesson }] of Object.entries(e2eLessons)) {
     const draft = key === 'draft'
@@ -76,4 +124,14 @@ export async function seedE2E(payload: Payload) {
       draft,
     })
   }
+
+  const offerings = {} as E2EFixtureIds['offerings']
+  for (const [key, offering] of Object.entries(e2eOfferings)) {
+    const doc = await payload.create({ collection: 'offerings', data: offeringData(course.id, offering) })
+    offerings[key as keyof typeof e2eOfferings] = doc.id
+  }
+  const other = await payload.create({ collection: 'offerings', data: offeringData(draftCourse.id, e2eOtherCourseOffering) })
+  offerings.otherCourse = other.id
+
+  return { offerings }
 }

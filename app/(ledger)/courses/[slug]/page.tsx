@@ -5,24 +5,33 @@ import { Container } from '@/components/layout/Container'
 import { Body } from '@/components/typography/Body'
 import { Caption } from '@/components/typography/Caption'
 import { Heading } from '@/components/typography/Heading'
+import { OfferingCard } from '@/components/ledger/OfferingCard'
 import { Badge } from '@/components/ui/Badge'
 import { getCourseBySlug, getOutline } from '@/lib/ledger/courses'
+import { getCourseOfferings } from '@/lib/ledger/offerings'
 import { getViewer } from '@/lib/ledger/payload'
 
-type Props = { params: Promise<{ slug: string }> }
+type Props = {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ offering?: string | string[] }>
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const course = await getCourseBySlug((await params).slug)
   return course ? { title: course.title, description: course.description } : {}
 }
 
-export default async function CoursePage({ params }: Props) {
+export default async function CoursePage({ params, searchParams }: Props) {
   const { slug } = await params
+  const { offering: requested } = await searchParams
   const course = await getCourseBySlug(slug)
   if (!course) notFound()
 
   const { payload, user } = await getViewer()
-  const lessons = await getOutline(payload, user, course.id)
+  const [lessons, offerings] = await Promise.all([
+    getOutline(payload, user, course.id),
+    getCourseOfferings(payload, user, course.id, typeof requested === 'string' ? requested : undefined),
+  ])
 
   return (
     <Container className="py-16">
@@ -34,6 +43,19 @@ export default async function CoursePage({ params }: Props) {
           {course.title}
         </Heading>
         <Body className="mb-12 text-h4">{course.description}</Body>
+
+        {offerings.length > 0 && (
+          <section aria-labelledby="offerings-heading" className="mb-12">
+            <Heading level={3} as="h2" className="mb-5">
+              <span id="offerings-heading">Join a cohort</span>
+            </Heading>
+            <div className="grid gap-6 sm:grid-cols-2">
+              {offerings.map((offering) => (
+                <OfferingCard key={offering.id} offering={offering} />
+              ))}
+            </div>
+          </section>
+        )}
 
         <section aria-labelledby="outline-heading">
           <Heading level={3} as="h2" className="mb-5">
