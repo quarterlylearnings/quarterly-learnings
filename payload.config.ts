@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 import { Courses } from './payload/collections/Courses.ts'
 import { emailAdapter } from './payload/email/adapter.ts'
 import { Lessons } from './payload/collections/Lessons.ts'
+import { Offerings } from './payload/collections/Offerings.ts'
 import { Users } from './payload/collections/Users.ts'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -27,7 +28,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Courses, Lessons],
+  collections: [Users, Courses, Lessons, Offerings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',

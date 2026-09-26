@@ -10,8 +10,8 @@ async function adminLogIn(page: Page) {
 }
 
 test.describe('Payload admin (/admin)', () => {
-  // Payload keeps login sessions on the user document; parallel logins as the
-  // same admin can collide, so these run one after another in one worker.
+  // Two of these log in as the seeded admin, and parallel logins as one user
+  // can drop a session (see e2eUsers), so they run in order in one worker.
   test.describe.configure({ mode: 'default' })
 
   test('seeded admin can log in and sees QL branding', async ({ page }) => {
@@ -27,7 +27,7 @@ test.describe('Payload admin (/admin)', () => {
 
   test('learner cannot use the admin panel', async ({ page }) => {
     await page.goto('/admin/login')
-    await page.getByLabel(/email/i).fill(e2eUsers.learner.email)
+    await page.getByLabel(/email/i).fill(e2eUsers.panelProbe.email)
     await page.getByLabel(/password/i).fill(E2E_PASSWORD)
     await page.getByRole('button', { name: /log ?in/i }).click()
 

@@ -16,6 +16,10 @@ if (process.env.EMAIL_CAPTURE_FILE) {
   writeFileSync(process.env.EMAIL_CAPTURE_FILE, '')
 }
 
+if (process.env.E2E_FIXTURES_FILE) {
+  mkdirSync(path.dirname(process.env.E2E_FIXTURES_FILE), { recursive: true })
+}
+
 const replSet = await MongoMemoryReplSet.create({ replSet: { count: 1 } })
 
 const env = {
