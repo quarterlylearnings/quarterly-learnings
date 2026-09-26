@@ -29,3 +29,8 @@ export function richText(paragraphs: string[], extraNodes: LexicalNode[] = []) {
     },
   }
 }
+
+/** A top-level Lexical block node, e.g. `block('codeBlock', { language, code })`. */
+export function block(blockType: string, fields: Record<string, unknown>, id: string): LexicalNode {
+  return { type: 'block', version: 2, format: '', fields: { id, blockName: '', blockType, ...fields } }
+}
