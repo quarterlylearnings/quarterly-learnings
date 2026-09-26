@@ -58,4 +58,10 @@ test.describe('Payload admin (/admin)', () => {
       await expect(page.locator(`#field-${field}`)).toBeVisible()
     }
   })
+
+  test('course form has a cover image upload', async ({ page }) => {
+    await adminLogIn(page)
+    await page.goto('/admin/collections/courses/create')
+    await expect(page.locator('#field-coverImage')).toBeVisible()
+  })
 })

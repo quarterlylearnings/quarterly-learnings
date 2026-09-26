@@ -1,0 +1,1 @@
+export { CourseCover } from './CourseCover'

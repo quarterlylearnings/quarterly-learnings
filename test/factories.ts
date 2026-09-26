@@ -8,6 +8,7 @@ export const daysFromNow = (days: number, from = Date.now()) => new Date(from + 
 let counter = 0
 const unique = () => `${Date.now().toString(36)}-${++counter}`
 
+/** The first user in an empty database becomes an admin (Users hook), whatever `role` says. */
 export function createUser(payload: Payload, role: User['role'] = 'learner', data: Partial<User> = {}) {
   return payload.create({
     collection: 'users',

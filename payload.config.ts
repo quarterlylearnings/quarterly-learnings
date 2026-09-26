@@ -9,8 +9,10 @@ import { Courses } from './payload/collections/Courses.ts'
 import { emailAdapter } from './payload/email/adapter.ts'
 import { Enrollments } from './payload/collections/Enrollments.ts'
 import { Lessons } from './payload/collections/Lessons.ts'
+import { Media } from './payload/collections/Media.ts'
 import { Offerings } from './payload/collections/Offerings.ts'
 import { Users } from './payload/collections/Users.ts'
+import { mediaStorage } from './payload/storage.ts'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -29,7 +31,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Courses, Lessons, Offerings, Enrollments],
+  collections: [Users, Courses, Lessons, Offerings, Enrollments, Media],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
@@ -42,5 +44,6 @@ export default buildConfig({
     connectOptions: { maxPoolSize: 10 },
   }),
   email: emailAdapter(),
+  plugins: [mediaStorage()],
   sharp,
 })

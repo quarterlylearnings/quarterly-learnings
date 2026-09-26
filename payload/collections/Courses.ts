@@ -43,5 +43,11 @@ export const Courses: CollectionConfig = {
       defaultValue: 'beginner',
       options: COURSE_LEVELS.map((value) => ({ label: value[0].toUpperCase() + value.slice(1), value })),
     },
+    {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { position: 'sidebar', description: 'Shown on /courses and the course page.' },
+    },
   ],
 }
