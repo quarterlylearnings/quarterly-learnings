@@ -71,6 +71,7 @@ export interface Config {
     courses: Course;
     lessons: Lesson;
     offerings: Offering;
+    enrollments: Enrollment;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +83,7 @@ export interface Config {
     courses: CoursesSelect<false> | CoursesSelect<true>;
     lessons: LessonsSelect<false> | LessonsSelect<true>;
     offerings: OfferingsSelect<false> | OfferingsSelect<true>;
+    enrollments: EnrollmentsSelect<false> | EnrollmentsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -240,6 +242,30 @@ export interface Offering {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enrollments".
+ */
+export interface Enrollment {
+  id: string;
+  learner: string | User;
+  offering: string | Offering;
+  /**
+   * Set from the offering.
+   */
+  course: string | Course;
+  source: 'individual' | 'buyer' | 'seat' | 'manual';
+  /**
+   * Refunded or revoked enrollments lock the course.
+   */
+  status: 'active' | 'refunded' | 'revoked';
+  /**
+   * Lessons lock after this date.
+   */
+  accessExpiresAt: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -277,6 +303,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'offerings';
         value: string | Offering;
+      } | null)
+    | ({
+        relationTo: 'enrollments';
+        value: string | Enrollment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -387,6 +417,20 @@ export interface OfferingsSelect<T extends boolean = true> {
   price?: T;
   seatPrice?: T;
   currency?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enrollments_select".
+ */
+export interface EnrollmentsSelect<T extends boolean = true> {
+  learner?: T;
+  offering?: T;
+  course?: T;
+  source?: T;
+  status?: T;
+  accessExpiresAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

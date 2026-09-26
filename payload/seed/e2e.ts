@@ -12,6 +12,18 @@ export const e2eUsers = {
   admin: { email: 'admin@example.com', name: 'Admin User' },
   learner: { email: 'learner@example.com', name: 'Learner User' },
   panelProbe: { email: 'panel-probe@example.com', name: 'Panel Probe' },
+  /** Active manual enrollment in the published course. */
+  enrolled: { email: 'enrolled@example.com', name: 'Enrolled Learner' },
+  /** Enrollment whose access ended three days before seeding. */
+  expired: { email: 'expired@example.com', name: 'Expired Learner' },
+  /** Logged-in learner with no enrollment. */
+  unenrolled: { email: 'unenrolled@example.com', name: 'Unenrolled Learner' },
+} as const
+
+/** Days from seeding until each seeded learner's access ends. */
+export const e2eEnrollments = {
+  enrolled: { expiresInDays: 90 },
+  expired: { expiresInDays: -3 },
 } as const
 
 export const e2eCourses = {
@@ -54,10 +66,18 @@ export const e2eLessons = {
     preview: false,
     body: 'Start with the task your team repeats every week, then test two tools against it.',
   },
+  rollout: {
+    title: 'Rolling a Tool Out',
+    slug: 'rolling-a-tool-out',
+    order: 3,
+    estimatedMinutes: 12,
+    preview: false,
+    body: 'Pick one team to try the tool for two weeks and write down what changed.',
+  },
   draft: {
     title: 'Unfinished Draft Lesson',
     slug: 'unfinished-draft-lesson',
-    order: 3,
+    order: 4,
     estimatedMinutes: 5,
     preview: true,
     body: 'This lesson is still a draft.',
@@ -104,8 +124,13 @@ export type E2EFixtureIds = { offerings: Record<keyof typeof e2eOfferings | 'oth
 export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
   // First user created becomes admin (Users beforeChange hook).
   await payload.create({ collection: 'users', data: { ...e2eUsers.admin, password: E2E_PASSWORD, role: 'admin' } })
-  for (const learner of [e2eUsers.learner, e2eUsers.panelProbe]) {
-    await payload.create({ collection: 'users', data: { ...learner, password: E2E_PASSWORD, role: 'learner' } })
+  const learners = {} as Record<Exclude<keyof typeof e2eUsers, 'admin'>, string>
+  for (const key of ['learner', 'panelProbe', 'enrolled', 'expired', 'unenrolled'] as const) {
+    const user = await payload.create({
+      collection: 'users',
+      data: { ...e2eUsers[key], password: E2E_PASSWORD, role: 'learner' },
+    })
+    learners[key] = user.id
   }
 
   const course = await payload.create({ collection: 'courses', data: { ...e2eCourses.published, _status: 'published' } })
@@ -132,6 +157,20 @@ export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
   }
   const other = await payload.create({ collection: 'offerings', data: offeringData(draftCourse.id, e2eOtherCourseOffering) })
   offerings.otherCourse = other.id
+
+  for (const [key, { expiresInDays }] of Object.entries(e2eEnrollments)) {
+    await payload.create({
+      collection: 'enrollments',
+      data: {
+        learner: learners[key as keyof typeof e2eEnrollments],
+        offering: offerings.onSale,
+        course: course.id,
+        source: 'manual',
+        status: 'active',
+        accessExpiresAt: daysFromNow(expiresInDays),
+      },
+    })
+  }
 
   return { offerings }
 }

@@ -5,12 +5,7 @@ import { isAdmin } from '../access/isAdmin.ts'
 import { CodeBlock } from '../blocks/CodeBlock.ts'
 import { publishedOrAdmin } from '../access/publishedOrAdmin.ts'
 import { slugify } from '../utilities/slugify.ts'
-
-const idOf = (value: unknown): string | undefined => {
-  if (!value) return undefined
-  if (typeof value === 'object' && 'id' in value) return String((value as { id: unknown }).id)
-  return String(value)
-}
+import { relationId } from '../utilities/relationId.ts'
 
 /**
  * Lesson slugs are unique within a course, not globally: two courses can both
@@ -18,7 +13,7 @@ const idOf = (value: unknown): string | undefined => {
  */
 export const slugUniqueWithinCourse: CollectionBeforeChangeHook = async ({ data, originalDoc, req }) => {
   const slug = data.slug ?? originalDoc?.slug
-  const course = idOf(data.course ?? originalDoc?.course)
+  const course = relationId(data.course ?? originalDoc?.course)
   if (!slug || !course) return data
 
   const { docs } = await req.payload.find({

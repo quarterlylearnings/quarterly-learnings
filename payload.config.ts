@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 
 import { Courses } from './payload/collections/Courses.ts'
 import { emailAdapter } from './payload/email/adapter.ts'
+import { Enrollments } from './payload/collections/Enrollments.ts'
 import { Lessons } from './payload/collections/Lessons.ts'
 import { Offerings } from './payload/collections/Offerings.ts'
 import { Users } from './payload/collections/Users.ts'
@@ -28,7 +29,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Courses, Lessons, Offerings],
+  collections: [Users, Courses, Lessons, Offerings, Enrollments],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
