@@ -1,7 +1,19 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 import { E2E_PASSWORD, e2eUsers } from '../payload/seed/e2e.ts'
 
+async function adminLogIn(page: Page) {
+  await page.goto('/admin/login')
+  await page.getByLabel(/email/i).fill(e2eUsers.admin.email)
+  await page.getByLabel(/password/i).fill(E2E_PASSWORD)
+  await page.getByRole('button', { name: /log ?in/i }).click()
+  await expect(page).toHaveURL(/\/admin\/?$/)
+}
+
 test.describe('Payload admin (/admin)', () => {
+  // Payload keeps login sessions on the user document; parallel logins as the
+  // same admin can collide, so these run one after another in one worker.
+  test.describe.configure({ mode: 'default' })
+
   test('seeded admin can log in and sees QL branding', async ({ page }) => {
     await page.goto('/admin/login')
     await page.getByLabel(/email/i).fill(e2eUsers.admin.email)
@@ -20,5 +32,17 @@ test.describe('Payload admin (/admin)', () => {
     await page.getByRole('button', { name: /log ?in/i }).click()
 
     await expect(page.getByText(/unauthorized|not allowed|you are not allowed/i).first()).toBeVisible()
+  })
+
+  test('lesson editor opens with rich text, course, order and preview fields', async ({ page }) => {
+    await adminLogIn(page)
+    await page.goto('/admin/collections/lessons/create')
+
+    await expect(page.getByLabel(/title/i).first()).toBeVisible()
+    // Lexical needs its client components in the import map to render.
+    await expect(page.locator('[contenteditable="true"]').first()).toBeVisible()
+    for (const field of ['course', 'order', 'estimatedMinutes', 'preview']) {
+      await expect(page.locator(`#field-${field}`)).toBeVisible()
+    }
   })
 })
