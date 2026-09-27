@@ -5,6 +5,7 @@ export default defineConfig([
   ...nextCoreWebVitals,
   globalIgnores([
     '.next/**',
+    '.next-local/**',
     'out/**',
     'build/**',
     'storybook-static/**',
@@ -12,5 +13,7 @@ export default defineConfig([
     'test-results/**',
     'tmp/**',
     'next-env.d.ts',
+    'payload-types.ts',
+    'app/(payload)/**',
   ]),
 ])

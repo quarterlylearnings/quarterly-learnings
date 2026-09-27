@@ -5,9 +5,10 @@
 
 @theme {
   /* --- Colors --- */
-  --color-primary: #80A1D4;
-  /* Primary as text on light backgrounds — #80A1D4 is only 2.6:1 on white */
-  --color-primary-text: #4A6FA5;
+  /* QL Learn yellow. Fills, highlights and focus rings only — never text or icons on white. */
+  --color-primary: #FFDB00;
+  /* Text in the primary role: tertiary, since yellow text fails contrast on white */
+  --color-primary-text: #14281D;
   --color-secondary: #355834;
   --color-tertiary: #14281D;
   --color-accent: #FFDB00;
@@ -42,6 +43,14 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+/* Marketing site keeps the original blue primary. Applied on <body> by app/(site)/layout.tsx
+   and app/global-not-found.tsx; removing it moves the marketing site to yellow. */
+.theme-site {
+  --color-primary: #80A1D4;
+  /* Primary as text on light backgrounds — #80A1D4 is only 2.6:1 on white */
+  --color-primary-text: #4A6FA5;
 }
 
 /* --- Motion tokens --- */
