@@ -49,6 +49,10 @@ test.describe('Payload admin (/admin)', () => {
     await page.locator('[contenteditable="true"]').first().click()
     await page.keyboard.type('/code')
     await expect(page.getByText('Code Example', { exact: true }).first()).toBeVisible()
+    await page.keyboard.press('Escape')
+    await page.keyboard.press('Enter')
+    await page.keyboard.type('/quiz')
+    await expect(page.getByText('Quiz Question', { exact: true }).first()).toBeVisible()
   })
 
   test('enrollment form offers learner, offering, source, status and access date', async ({ page }) => {

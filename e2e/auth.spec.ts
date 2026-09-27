@@ -69,7 +69,7 @@ test.describe('Learner auth', () => {
   })
 
   test('ignores an off-site ?next= after logging in', async ({ page }) => {
-    await logIn(page, e2eUsers.learner.email, E2E_PASSWORD, 'https://evil.example.com')
+    await logIn(page, e2eUsers.offsiteNext.email, E2E_PASSWORD, 'https://evil.example.com')
     await landedOn(page, 'Courses')
     await expect(page).toHaveURL(/localhost:3100\/courses$/)
   })

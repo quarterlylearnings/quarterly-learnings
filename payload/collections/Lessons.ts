@@ -3,6 +3,8 @@ import { ValidationError, type CollectionBeforeChangeHook, type CollectionConfig
 import { canReadLessonContent } from '../access/canReadLessonContent.ts'
 import { isAdmin } from '../access/isAdmin.ts'
 import { CodeBlock } from '../blocks/CodeBlock.ts'
+import { QuizBlock } from '../blocks/QuizBlock.ts'
+import { stripQuizAnswers } from '../quiz/answers.ts'
 import { publishedOrAdmin } from '../access/publishedOrAdmin.ts'
 import { slugify } from '../utilities/slugify.ts'
 import { relationId } from '../utilities/relationId.ts'
@@ -58,6 +60,7 @@ export const Lessons: CollectionConfig = {
   },
   hooks: {
     beforeChange: [slugUniqueWithinCourse],
+    afterRead: [stripQuizAnswers],
   },
   fields: [
     { name: 'title', type: 'text', required: true },
@@ -109,7 +112,7 @@ export const Lessons: CollectionConfig = {
       type: 'richText',
       access: { read: canReadLessonContent },
       editor: lexicalEditor({
-        features: ({ defaultFeatures }) => [...defaultFeatures, BlocksFeature({ blocks: [CodeBlock] })],
+        features: ({ defaultFeatures }) => [...defaultFeatures, BlocksFeature({ blocks: [CodeBlock, QuizBlock] })],
       }),
     },
   ],

@@ -14,6 +14,7 @@ import { getCourseBySlug, getLesson, getOutline, type OutlineLesson } from '@/li
 import { formatDate } from '@/lib/ledger/format'
 import { getViewer } from '@/lib/ledger/payload'
 import { courseAccess } from '@/payload/access/hasCourseAccess'
+import { latestQuizResults } from '@/payload/quiz/grade'
 import type { Course } from '@/payload-types'
 
 type Props = { params: Promise<{ slug: string; lesson: string }> }
@@ -63,7 +64,11 @@ export default async function LessonPage({ params }: Props) {
         </div>
 
         {lesson.content ? (
-          <RichTextRenderer content={lesson.content} />
+          <RichTextRenderer
+            content={lesson.content}
+            lessonId={lesson.id}
+            quizResults={await latestQuizResults(payload, user, lesson.id)}
+          />
         ) : (
           <LockedLesson
             course={course}
