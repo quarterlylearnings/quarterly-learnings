@@ -169,6 +169,10 @@ export interface Course {
   description: string;
   level: 'beginner' | 'intermediate' | 'advanced';
   /**
+   * Instructors can edit this course, its lessons and its sessions. On a published course, a change here applies when you publish, not when you save a draft.
+   */
+  instructors?: (string | User)[] | null;
+  /**
    * Shown on /courses and the course page.
    */
   coverImage?: (string | null) | Media;
@@ -481,6 +485,7 @@ export interface CoursesSelect<T extends boolean = true> {
   slug?: T;
   description?: T;
   level?: T;
+  instructors?: T;
   coverImage?: T;
   updatedAt?: T;
   createdAt?: T;

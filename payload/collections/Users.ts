@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { passwordReset } from '../email/templates.ts'
 import { isAdminField, userIsAdmin } from '../access/isAdmin.ts'
 import { isAdminOrSelf } from '../access/isAdminOrSelf.ts'
+import { canUseAdminPanel, hiddenFromNonAdmins } from '../access/instructor.ts'
 
 export const ROLES = ['admin', 'instructor', 'learner'] as const
 
@@ -37,6 +38,7 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['email', 'name', 'role'],
+    hidden: hiddenFromNonAdmins,
   },
   access: {
     // Sign-up is public; the hook below decides the role.
@@ -44,8 +46,8 @@ export const Users: CollectionConfig = {
     read: isAdminOrSelf,
     update: isAdminOrSelf,
     delete: ({ req: { user } }) => userIsAdmin(user),
-    // Instructors get panel access in DEV-96.
-    admin: ({ req: { user } }) => userIsAdmin(user),
+    // Instructors use the panel too, scoped to their courses (DEV-96).
+    admin: ({ req: { user } }) => canUseAdminPanel(user),
   },
   hooks: {
     beforeChange: [

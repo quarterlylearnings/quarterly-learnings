@@ -30,6 +30,8 @@ export const e2eUsers = {
   previewReader: { email: 'preview-reader@example.com', name: 'Preview Reader' },
   /** Enrolled in the Open Cohort; checks the session schedule. */
   sessionLearner: { email: 'session-learner@example.com', name: 'Session Learner' },
+  /** Instructor assigned to the published course only (DEV-96). */
+  instructor: { email: 'instructor@example.com', name: 'Instructor User' },
 } as const
 
 /** Days from seeding until each seeded learner's access ends. */
@@ -186,7 +188,11 @@ const offeringData = (course: string, { openDays, closeDays, ...offering }: Seed
 })
 
 /** Ids of seeded docs that the public API hides, keyed like the fixtures above. */
-export type E2EFixtureIds = { offerings: Record<keyof typeof e2eOfferings | 'otherCourse', string> }
+export type E2EFixtureIds = {
+  offerings: Record<keyof typeof e2eOfferings | 'otherCourse', string>
+  courses: Record<keyof typeof e2eCourses, string>
+  lessons: Record<keyof typeof e2eLessons, string>
+}
 
 /** Fixtures for Playwright and `npm run dev:local`. Later slices add their own. */
 export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
@@ -200,6 +206,8 @@ export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
     })
     learners[key] = user.id
   }
+  // Sign-ups are always learners (Users hook), so the instructor role is set afterwards.
+  await payload.update({ collection: 'users', id: learners.instructor, data: { role: 'instructor' } })
 
   const cover = await payload.create({
     collection: 'media',
@@ -208,15 +216,16 @@ export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
   })
   const course = await payload.create({
     collection: 'courses',
-    data: { ...e2eCourses.published, coverImage: cover.id, _status: 'published' },
+    data: { ...e2eCourses.published, coverImage: cover.id, instructors: [learners.instructor], _status: 'published' },
   })
-  await payload.create({ collection: 'courses', data: { ...e2eCourses.noCover, _status: 'published' } })
+  const noCoverCourse = await payload.create({ collection: 'courses', data: { ...e2eCourses.noCover, _status: 'published' } })
   const draftCourse = await payload.create({
     collection: 'courses',
     data: { ...e2eCourses.draft, _status: 'draft' },
     draft: true,
   })
 
+  const lessons = {} as E2EFixtureIds['lessons']
   for (const [key, { body, ...lesson }] of Object.entries(e2eLessons)) {
     const draft = key === 'draft'
     const blocks =
@@ -226,11 +235,12 @@ export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
             block('quizBlock', e2eQuiz, '66f5a0000000000000000002'),
           ]
         : []
-    await payload.create({
+    const doc = await payload.create({
       collection: 'lessons',
       data: { ...lesson, course: course.id, content: richText([body], blocks), _status: draft ? 'draft' : 'published' },
       draft,
     })
+    lessons[key as keyof typeof e2eLessons] = doc.id
   }
 
   const offerings = {} as E2EFixtureIds['offerings']
@@ -256,5 +266,9 @@ export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
     })
   }
 
-  return { offerings }
+  return {
+    offerings,
+    courses: { published: course.id, noCover: noCoverCourse.id, draft: draftCourse.id },
+    lessons,
+  }
 }

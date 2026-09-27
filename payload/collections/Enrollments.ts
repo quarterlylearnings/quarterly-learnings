@@ -1,4 +1,5 @@
 import type { Access, CollectionBeforeValidateHook, CollectionConfig } from 'payload'
+import { hiddenFromNonAdmins } from '../access/instructor.ts'
 import { isAdmin, userIsAdmin } from '../access/isAdmin.ts'
 import { relationId } from '../utilities/relationId.ts'
 import { enrollmentExpiresAt } from '../utilities/sessions.ts'
@@ -43,6 +44,7 @@ const fromOffering: CollectionBeforeValidateHook = async ({ data, originalDoc, o
 export const Enrollments: CollectionConfig = {
   slug: 'enrollments',
   admin: {
+    hidden: hiddenFromNonAdmins,
     defaultColumns: ['learner', 'offering', 'status', 'source', 'accessExpiresAt'],
   },
   access: {

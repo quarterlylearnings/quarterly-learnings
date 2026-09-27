@@ -1,11 +1,17 @@
 import { BlocksFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
-import { ValidationError, type CollectionBeforeChangeHook, type CollectionConfig } from 'payload'
+import {
+  ValidationError,
+  type Access,
+  type CollectionBeforeChangeHook,
+  type CollectionConfig,
+  type FieldAccess,
+} from 'payload'
 import { canReadLessonContent } from '../access/canReadLessonContent.ts'
-import { isAdmin } from '../access/isAdmin.ts'
+import { adminOrAssignedBy, assignedCourseIds, assignedOnlyForInstructors, isAssignedInstructor, userIsInstructor } from '../access/instructor.ts'
+import { userIsAdmin } from '../access/isAdmin.ts'
 import { CodeBlock } from '../blocks/CodeBlock.ts'
 import { QuizBlock } from '../blocks/QuizBlock.ts'
 import { stripQuizAnswers } from '../quiz/answers.ts'
-import { publishedOrAdmin } from '../access/publishedOrAdmin.ts'
 import { slugify } from '../utilities/slugify.ts'
 import { relationId } from '../utilities/relationId.ts'
 
@@ -43,20 +49,37 @@ export const slugUniqueWithinCourse: CollectionBeforeChangeHook = async ({ data,
   return data
 }
 
+/** Published lessons are public; admins see drafts; instructors see drafts of their courses. */
+const readLessons: Access = async ({ req }) => {
+  if (userIsAdmin(req.user)) return true
+  const published = { _status: { equals: 'published' } }
+  if (!userIsInstructor(req.user)) return published
+  return { or: [published, { course: { in: await assignedCourseIds(req) } }] }
+}
+
+/** Instructors may create lessons only in courses they're assigned to. */
+const createLessons: Access = async ({ req, data }) =>
+  userIsAdmin(req.user) || isAssignedInstructor(req, relationId(data?.course))
+
+/** Instructors can't move a lesson into a course they aren't assigned to. */
+const canSetCourse: FieldAccess = async ({ req, data, siblingData }) =>
+  userIsAdmin(req.user) || isAssignedInstructor(req, relationId(siblingData?.course ?? data?.course))
+
 /** Ordered content within a course. Publish state uses Payload drafts. */
 export const Lessons: CollectionConfig = {
   slug: 'lessons',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'course', 'order', 'preview', '_status'],
+    baseFilter: assignedOnlyForInstructors('course'),
   },
   defaultSort: 'order',
   versions: { drafts: true },
   access: {
-    read: publishedOrAdmin,
-    create: isAdmin,
-    update: isAdmin,
-    delete: isAdmin,
+    read: readLessons,
+    create: createLessons,
+    update: adminOrAssignedBy('course'),
+    delete: adminOrAssignedBy('course'),
   },
   hooks: {
     beforeChange: [slugUniqueWithinCourse],
@@ -86,6 +109,7 @@ export const Lessons: CollectionConfig = {
       relationTo: 'courses',
       required: true,
       index: true,
+      access: { create: canSetCourse, update: canSetCourse },
       admin: { position: 'sidebar' },
     },
     {
