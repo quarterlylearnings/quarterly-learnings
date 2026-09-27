@@ -279,6 +279,29 @@ export interface Offering {
    */
   seatPrice?: number | null;
   currency: 'usd';
+  /**
+   * Live sessions. Enrolled learners see the class link from 24 hours before each start.
+   */
+  sessions?:
+    | {
+        title: string;
+        startsAt: string;
+        endsAt: string;
+        /**
+         * For display, e.g. America/New_York.
+         */
+        timezone: string;
+        /**
+         * Zoom, Meet or similar.
+         */
+        classLink: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Last session end + 6 months. Enrollments in this offering expire then.
+   */
+  accessEndsAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -300,7 +323,7 @@ export interface Enrollment {
    */
   status: 'active' | 'refunded' | 'revoked';
   /**
-   * Lessons lock after this date.
+   * Lessons lock after this date. Filled from the offering when left empty, and updated when its sessions change.
    */
   accessExpiresAt: string;
   /**
@@ -492,6 +515,17 @@ export interface OfferingsSelect<T extends boolean = true> {
   price?: T;
   seatPrice?: T;
   currency?: T;
+  sessions?:
+    | T
+    | {
+        title?: T;
+        startsAt?: T;
+        endsAt?: T;
+        timezone?: T;
+        classLink?: T;
+        id?: T;
+      };
+  accessEndsAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

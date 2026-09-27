@@ -1,6 +1,7 @@
 import type { Access, CollectionBeforeValidateHook, CollectionConfig } from 'payload'
 import { isAdmin, userIsAdmin } from '../access/isAdmin.ts'
 import { relationId } from '../utilities/relationId.ts'
+import { enrollmentExpiresAt } from '../utilities/sessions.ts'
 
 export const ENROLLMENT_SOURCES = ['individual', 'buyer', 'seat', 'manual'] as const
 export const ENROLLMENT_STATUSES = ['active', 'refunded', 'revoked'] as const
@@ -14,19 +15,25 @@ const ownOrAdmin: Access = ({ req: { user } }) => {
   return { learner: { equals: user.id } }
 }
 
-/** `course` is denormalized from the offering for queries, so it always follows the offering. */
-const courseFromOffering: CollectionBeforeValidateHook = async ({ data, originalDoc, req }) => {
+/**
+ * `course` is denormalized from the offering for queries, so it always follows
+ * the offering. On create, a missing `accessExpiresAt` comes from the offering's
+ * `accessEndsAt`, or today + 6 months without sessions (PRD §5.2).
+ */
+const fromOffering: CollectionBeforeValidateHook = async ({ data, originalDoc, operation, req }) => {
   const offeringId = relationId(data?.offering ?? originalDoc?.offering)
   if (!offeringId) return data
   const doc = await req.payload.findByID({
     collection: 'offerings',
     id: offeringId,
     depth: 0,
-    select: { course: true },
+    select: { course: true, accessEndsAt: true },
     overrideAccess: true,
     req,
   })
-  return { ...data, course: doc.course }
+  const accessExpiresAt =
+    operation === 'create' && !data?.accessExpiresAt ? enrollmentExpiresAt(doc.accessEndsAt, new Date()) : data?.accessExpiresAt
+  return { ...data, course: doc.course, ...(accessExpiresAt ? { accessExpiresAt } : {}) }
 }
 
 /**
@@ -47,7 +54,7 @@ export const Enrollments: CollectionConfig = {
   // A person holds at most one enrollment per offering (PRD §3.5 R12).
   indexes: [{ fields: ['learner', 'offering'], unique: true }],
   hooks: {
-    beforeValidate: [courseFromOffering],
+    beforeValidate: [fromOffering],
   },
   fields: [
     { name: 'learner', type: 'relationship', relationTo: 'users', required: true, index: true },
@@ -85,7 +92,7 @@ export const Enrollments: CollectionConfig = {
       admin: {
         position: 'sidebar',
         date: { pickerAppearance: 'dayAndTime' },
-        description: 'Lessons lock after this date.',
+        description: 'Lessons lock after this date. Filled from the offering when left empty, and updated when its sessions change.',
       },
     },
     {

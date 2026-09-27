@@ -28,6 +28,8 @@ export const e2eUsers = {
   progressLearner: { email: 'progress-learner@example.com', name: 'Progress Learner' },
   /** Logged in, not enrolled; reads the preview lesson. */
   previewReader: { email: 'preview-reader@example.com', name: 'Preview Reader' },
+  /** Enrolled in the Open Cohort; checks the session schedule. */
+  sessionLearner: { email: 'session-learner@example.com', name: 'Session Learner' },
 } as const
 
 /** Days from seeding until each seeded learner's access ends. */
@@ -35,6 +37,7 @@ export const e2eEnrollments = {
   enrolled: { expiresInDays: 90 },
   quizTaker: { expiresInDays: 90 },
   progressLearner: { expiresInDays: 90 },
+  sessionLearner: { expiresInDays: 90 },
   expired: { expiresInDays: -3 },
 } as const
 
@@ -116,6 +119,35 @@ export const e2eLessons = {
 const DAY = 24 * 60 * 60 * 1000
 const daysFromNow = (days: number) => new Date(Date.now() + days * DAY).toISOString()
 
+const HOUR = 60 * 60 * 1000
+const hoursFromNow = (hours: number) => new Date(Date.now() + hours * HOUR).toISOString()
+
+/** Session start and length, relative to seeding. */
+type SeedSession = { title: string; startsInHours: number; hours: number; classLink: string }
+
+/** Sessions of the Open Cohort (the one seeded learners are enrolled in). */
+export const e2eSessions = {
+  ended: { title: 'Kickoff', startsInHours: -48, hours: 1.5, classLink: 'https://meet.example.com/open-kickoff' },
+  soon: { title: 'Tools Walkthrough', startsInHours: 1, hours: 1.5, classLink: 'https://meet.example.com/open-walkthrough' },
+  later: { title: 'Team Rollout Clinic', startsInHours: 72, hours: 1.5, classLink: 'https://meet.example.com/open-clinic' },
+} as const satisfies Record<string, SeedSession>
+
+/** Sessions of other offerings; their links must never reach Open Cohort learners or the public. */
+export const e2eOtherSessions = {
+  notYetOpen: { title: 'Upcoming Kickoff', startsInHours: 1, hours: 1, classLink: 'https://meet.example.com/upcoming-kickoff' },
+  unlisted: { title: 'Early List Kickoff', startsInHours: 1, hours: 1, classLink: 'https://meet.example.com/early-list-kickoff' },
+} as const satisfies Record<string, SeedSession>
+
+export const E2E_SESSION_TIMEZONE = 'America/New_York'
+
+const sessionData = ({ title, startsInHours, hours, classLink }: SeedSession) => ({
+  title,
+  startsAt: hoursFromNow(startsInHours),
+  endsAt: hoursFromNow(startsInHours + hours),
+  timezone: E2E_SESSION_TIMEZONE,
+  classLink,
+})
+
 /** Offerings of the published course, one per sales state and window case. */
 export const e2eOfferings = {
   onSale: { title: 'Open Cohort', salesState: 'on_sale', price: 49900, seatPrice: 39900, openDays: -7, closeDays: 30 },
@@ -138,12 +170,19 @@ type SeedOffering = {
   closeDays?: number
 }
 
-const offeringData = (course: string, { openDays, closeDays, ...offering }: SeedOffering) => ({
+const SEEDED_SESSIONS: Partial<Record<keyof typeof e2eOfferings, SeedSession[]>> = {
+  onSale: Object.values(e2eSessions),
+  notYetOpen: [e2eOtherSessions.notYetOpen],
+  unlisted: [e2eOtherSessions.unlisted],
+}
+
+const offeringData = (course: string, { openDays, closeDays, ...offering }: SeedOffering, sessions: SeedSession[] = []) => ({
   ...offering,
   course,
   currency: 'usd' as const,
   salesOpenAt: openDays === undefined ? undefined : daysFromNow(openDays),
   salesCloseAt: closeDays === undefined ? undefined : daysFromNow(closeDays),
+  sessions: sessions.map(sessionData),
 })
 
 /** Ids of seeded docs that the public API hides, keyed like the fixtures above. */
@@ -196,7 +235,8 @@ export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
 
   const offerings = {} as E2EFixtureIds['offerings']
   for (const [key, offering] of Object.entries(e2eOfferings)) {
-    const doc = await payload.create({ collection: 'offerings', data: offeringData(course.id, offering) })
+    const sessions = SEEDED_SESSIONS[key as keyof typeof e2eOfferings]
+    const doc = await payload.create({ collection: 'offerings', data: offeringData(course.id, offering, sessions) })
     offerings[key as keyof typeof e2eOfferings] = doc.id
   }
   const other = await payload.create({ collection: 'offerings', data: offeringData(draftCourse.id, e2eOtherCourseOffering) })

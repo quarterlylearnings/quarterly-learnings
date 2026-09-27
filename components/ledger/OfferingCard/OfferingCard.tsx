@@ -4,9 +4,9 @@ import { Heading } from '@/components/typography/Heading'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Card, CardBody, CardFooter, CardHeader } from '@/components/ui/Card'
-import { formatDate } from '@/lib/ledger/format'
+import { formatDate, formatSessionTime } from '@/lib/ledger/format'
 import { formatPrice, salesWindow } from '@/payload/utilities/offerings'
-import type { PublicOffering } from '@/lib/ledger/offerings'
+import { firstSession, type PublicOffering } from '@/lib/ledger/offerings'
 
 type OfferingCardProps = {
   offering: PublicOffering
@@ -23,6 +23,8 @@ export function OfferingCard({ offering, now }: OfferingCardProps) {
   const sales = salesWindow(offering, now)
   const currency = offering.currency ?? 'usd'
   const headingId = `offering-${offering.id}`
+  const first = firstSession(offering)
+  const sessionCount = offering.sessions?.length ?? 0
   const salesNote =
     sales.status === 'not_open'
       ? `Sales open ${formatDate(sales.opensAt)}.`
@@ -52,6 +54,12 @@ export function OfferingCard({ offering, now }: OfferingCardProps) {
           <Caption as="p" className="mt-1">
             Team seats {formatPrice(offering.seatPrice, currency)} each
           </Caption>
+        )}
+        {first && (
+          <Body className="mt-4">
+            {sessionCount === 1 ? 'Live session' : `${sessionCount} live sessions, starting`}{' '}
+            {formatSessionTime(first.startsAt, first.endsAt, first.timezone)}
+          </Body>
         )}
         {salesNote && <Body className="mt-4">{salesNote}</Body>}
       </CardBody>

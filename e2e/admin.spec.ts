@@ -68,4 +68,12 @@ test.describe('Payload admin (/admin)', () => {
     await page.goto('/admin/collections/courses/create')
     await expect(page.locator('#field-coverImage')).toBeVisible()
   })
+
+  test('offering form has sessions and a read-only access end date', async ({ page }) => {
+    await adminLogIn(page)
+    await page.goto('/admin/collections/offerings/create')
+    await expect(page.locator('#field-sessions')).toBeVisible()
+    await expect(page.locator('#field-accessEndsAt')).toBeVisible()
+    await expect(page.locator('#field-accessEndsAt input')).toBeDisabled()
+  })
 })
