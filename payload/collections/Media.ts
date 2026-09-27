@@ -1,7 +1,8 @@
 import path from 'path'
 import type { CollectionConfig } from 'payload'
 import { fileURLToPath } from 'url'
-import { isAdmin } from '../access/isAdmin.ts'
+import { userIsInstructor } from '../access/instructor.ts'
+import { isAdmin, userIsAdmin } from '../access/isAdmin.ts'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -18,8 +19,9 @@ export const Media: CollectionConfig = {
   access: {
     // Course covers are public. Gated handouts would need their own rule.
     read: () => true,
-    create: isAdmin,
-    update: isAdmin,
+    // Instructors upload and edit media; deleting (it may be used elsewhere) stays with admins.
+    create: ({ req: { user } }) => userIsAdmin(user) || userIsInstructor(user),
+    update: ({ req: { user } }) => userIsAdmin(user) || userIsInstructor(user),
     delete: isAdmin,
   },
   upload: {

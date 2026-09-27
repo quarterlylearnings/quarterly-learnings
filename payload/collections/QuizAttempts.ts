@@ -1,4 +1,5 @@
 import type { Access, CollectionConfig } from 'payload'
+import { hiddenFromNonAdmins } from '../access/instructor.ts'
 import { isAdmin, userIsAdmin } from '../access/isAdmin.ts'
 
 /** Learners read only their own attempts; admins read all (PRD §5.3). */
@@ -15,6 +16,7 @@ const ownOrAdmin: Access = ({ req: { user } }) => {
 export const QuizAttempts: CollectionConfig = {
   slug: 'quiz-attempts',
   admin: {
+    hidden: hiddenFromNonAdmins,
     defaultColumns: ['learner', 'lesson', 'quizBlockId', 'correct', 'createdAt'],
   },
   access: {

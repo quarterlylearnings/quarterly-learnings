@@ -6,7 +6,9 @@ import type {
   Validate,
 } from 'payload'
 import { hasOfferingAccess } from '../access/hasOfferingAccess.ts'
-import { isAdmin, userIsAdmin } from '../access/isAdmin.ts'
+import { adminOrAssignedBy, assignedOnlyForInstructors, isAssignedInstructor } from '../access/instructor.ts'
+import { isAdmin, isAdminField, userIsAdmin } from '../access/isAdmin.ts'
+import { relationId } from '../utilities/relationId.ts'
 import { onSaleOrAdmin } from '../access/onSaleOrAdmin.ts'
 import { SALES_STATES } from '../utilities/offerings.ts'
 import { accessEndsAt, classLinkWindow, enrollmentExpiresAt, isTimeZone } from '../utilities/sessions.ts'
@@ -61,12 +63,14 @@ const validateClassLink: Validate<string> = (value) => {
 }
 
 /**
- * A session's class link is readable by admins, and by learners actively
- * enrolled in this offering from 24 hours before the start until the end
- * (PRD §5.2, §5.3). Evaluated per session row, at read time; never stored.
+ * A session's class link is readable by admins and the course's instructors,
+ * and by learners actively enrolled in this offering from 24 hours before the
+ * start until the end (PRD §5.2, §5.3). Evaluated per session row, at read
+ * time; never stored.
  */
 const canReadClassLink: FieldAccess = async ({ req, doc, siblingData }) => {
   if (userIsAdmin(req.user)) return true
+  if (await isAssignedInstructor(req, relationId(doc?.course))) return true
   const session = siblingData as { startsAt?: string; endsAt?: string } | undefined
   if (!req.user || !doc?.id || !session?.startsAt || !session.endsAt) return false
   if (classLinkWindow({ startsAt: session.startsAt, endsAt: session.endsAt }) !== 'open') return false
@@ -116,11 +120,13 @@ export const Offerings: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'course', 'salesState', 'price', 'updatedAt'],
+    baseFilter: assignedOnlyForInstructors('course'),
   },
   access: {
     read: onSaleOrAdmin,
     create: isAdmin,
-    update: isAdmin,
+    // Instructors edit their courses' offerings, but only `sessions` (field access below).
+    update: adminOrAssignedBy('course'),
     delete: isAdmin,
   },
   hooks: {
@@ -128,10 +134,18 @@ export const Offerings: CollectionConfig = {
     afterChange: [recomputeEnrollmentAccess],
   },
   fields: [
-    { name: 'title', type: 'text', required: true, admin: { description: 'For example, "November 2026 cohort".' } },
-    { name: 'course', type: 'relationship', relationTo: 'courses', required: true, index: true },
+    { name: 'title', type: 'text', required: true, access: { update: isAdminField }, admin: { description: 'For example, "November 2026 cohort".' } },
+    {
+      name: 'course',
+      type: 'relationship',
+      relationTo: 'courses',
+      required: true,
+      index: true,
+      access: { update: isAdminField },
+    },
     {
       name: 'salesState',
+      access: { update: isAdminField },
       type: 'select',
       required: true,
       defaultValue: 'draft',
@@ -144,11 +158,13 @@ export const Offerings: CollectionConfig = {
       fields: [
         {
           name: 'salesOpenAt',
+          access: { update: isAdminField },
           type: 'date',
           admin: { date: { pickerAppearance: 'dayAndTime' }, description: 'Leave empty to open sales immediately.' },
         },
         {
           name: 'salesCloseAt',
+          access: { update: isAdminField },
           type: 'date',
           validate: validateSalesClose,
           admin: { date: { pickerAppearance: 'dayAndTime' }, description: 'Leave empty to keep sales open.' },
@@ -160,18 +176,21 @@ export const Offerings: CollectionConfig = {
       fields: [
         {
           name: 'price',
+          access: { update: isAdminField },
           type: 'number',
           validate: validatePrice,
           admin: { description: 'In cents (49900 = $499). Required unless the offering is a Draft.' },
         },
         {
           name: 'seatPrice',
+          access: { update: isAdminField },
           type: 'number',
           validate: validateSeatPrice,
           admin: { description: 'Per seat, in cents. Leave empty to turn off team seat purchases.' },
         },
         {
           name: 'currency',
+          access: { update: isAdminField },
           type: 'select',
           required: true,
           defaultValue: 'usd',

@@ -8,12 +8,18 @@ export const daysFromNow = (days: number, from = Date.now()) => new Date(from + 
 let counter = 0
 const unique = () => `${Date.now().toString(36)}-${++counter}`
 
-/** The first user in an empty database becomes an admin (Users hook), whatever `role` says. */
-export function createUser(payload: Payload, role: User['role'] = 'learner', data: Partial<User> = {}) {
-  return payload.create({
+/**
+ * A user with exactly `role`. The Users hook makes the first account an admin
+ * and every later sign-up a learner, so the role is applied with a trusted
+ * update afterwards.
+ */
+export async function createUser(payload: Payload, role: User['role'] = 'learner', data: Partial<User> = {}) {
+  const user = await payload.create({
     collection: 'users',
     data: { email: `${role}-${unique()}@example.com`, password: 'pw-123456', role, ...data },
   })
+  if (user.role === role) return user
+  return payload.update({ collection: 'users', id: user.id, data: { role } })
 }
 
 export function createCourse(payload: Payload, title = `Course ${unique()}`) {

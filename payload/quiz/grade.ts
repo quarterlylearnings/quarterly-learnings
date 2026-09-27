@@ -1,6 +1,7 @@
 import type { Payload } from 'payload'
 import type { Lesson, QuizBlockFields, User } from '../../payload-types.ts'
 import { hasCourseAccess } from '../access/hasCourseAccess.ts'
+import { isAssignedInstructor } from '../access/instructor.ts'
 import { userIsAdmin } from '../access/isAdmin.ts'
 import { relationId } from '../utilities/relationId.ts'
 import { WITH_QUIZ_ANSWERS, quizBlocks } from './answers.ts'
@@ -60,7 +61,12 @@ export async function gradeQuizAttempt(
 
   const courseId = relationId(lesson.course)!
   const canRead =
-    lesson.preview === true || userIsAdmin(user) || (user ? await hasCourseAccess(payload, user, courseId) : false)
+    lesson.preview === true ||
+    userIsAdmin(user) ||
+    (user
+      ? (await isAssignedInstructor({ payload, user, context: {} }, courseId)) ||
+        (await hasCourseAccess(payload, user, courseId))
+      : false)
   if (!canRead) return { ok: false, error: 'Enroll in this course to answer its questions.' }
 
   if (!Number.isInteger(selectedIndex) || selectedIndex < 0 || selectedIndex >= block.options.length) {
