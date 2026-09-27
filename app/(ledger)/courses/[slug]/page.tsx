@@ -7,9 +7,10 @@ import { Caption } from '@/components/typography/Caption'
 import { Heading } from '@/components/typography/Heading'
 import { CourseCover } from '@/components/ledger/CourseCover'
 import { OfferingCard } from '@/components/ledger/OfferingCard'
+import { SessionSchedule } from '@/components/ledger/SessionSchedule'
 import { Badge } from '@/components/ui/Badge'
 import { getCourseBySlug, getOutline } from '@/lib/ledger/courses'
-import { getCourseOfferings } from '@/lib/ledger/offerings'
+import { getCourseOfferings, getEnrolledOfferings } from '@/lib/ledger/offerings'
 import { getViewer } from '@/lib/ledger/payload'
 
 type Props = {
@@ -29,10 +30,15 @@ export default async function CoursePage({ params, searchParams }: Props) {
   if (!course) notFound()
 
   const { payload, user } = await getViewer()
-  const [lessons, offerings] = await Promise.all([
+  const [lessons, enrolledIn] = await Promise.all([
     getOutline(payload, user, course.id),
-    getCourseOfferings(payload, user, course.id, typeof requested === 'string' ? requested : undefined),
+    getEnrolledOfferings(payload, user, course.id),
   ])
+  // Enrolled learners see their own schedule instead of buy buttons (PRD §3.2 R2).
+  const offerings =
+    enrolledIn.length > 0
+      ? []
+      : await getCourseOfferings(payload, user, course.id, typeof requested === 'string' ? requested : undefined)
 
   return (
     <Container className="py-16">
@@ -45,6 +51,20 @@ export default async function CoursePage({ params, searchParams }: Props) {
           {course.title}
         </Heading>
         <Body className="mb-12 text-h4">{course.description}</Body>
+
+        {enrolledIn.length > 0 && (
+          <section aria-labelledby="sessions-heading" className="mb-12">
+            <Heading level={3} as="h2" className="mb-5">
+              <span id="sessions-heading">Your sessions</span>
+            </Heading>
+            {enrolledIn.map((offering) => (
+              <div key={offering.id} className="mb-6">
+                {enrolledIn.length > 1 && <Body className="mb-2 font-medium">{offering.title}</Body>}
+                <SessionSchedule sessions={offering.sessions ?? []} />
+              </div>
+            ))}
+          </section>
+        )}
 
         {offerings.length > 0 && (
           <section aria-labelledby="offerings-heading" className="mb-12">

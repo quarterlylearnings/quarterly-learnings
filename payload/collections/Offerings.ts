@@ -1,7 +1,15 @@
-import type { CollectionConfig, Validate } from 'payload'
-import { isAdmin } from '../access/isAdmin.ts'
+import type {
+  CollectionAfterChangeHook,
+  CollectionBeforeChangeHook,
+  CollectionConfig,
+  FieldAccess,
+  Validate,
+} from 'payload'
+import { hasOfferingAccess } from '../access/hasOfferingAccess.ts'
+import { isAdmin, userIsAdmin } from '../access/isAdmin.ts'
 import { onSaleOrAdmin } from '../access/onSaleOrAdmin.ts'
 import { SALES_STATES } from '../utilities/offerings.ts'
+import { accessEndsAt, classLinkWindow, enrollmentExpiresAt, isTimeZone } from '../utilities/sessions.ts'
 
 const SALES_STATE_LABELS: Record<(typeof SALES_STATES)[number], string> = {
   draft: 'Draft',
@@ -32,6 +40,76 @@ const validateSalesClose: Validate<Date | string> = (value, { siblingData }) => 
   return true
 }
 
+const validateEndsAt: Validate<Date | string> = (value, { siblingData }) => {
+  const startsAt = (siblingData as { startsAt?: Date | string | null }).startsAt
+  if (!value) return 'Set when the session ends.'
+  if (startsAt && new Date(value) <= new Date(startsAt)) return 'The session must end after it starts.'
+  return true
+}
+
+const validateTimeZone: Validate<string> = (value) =>
+  isTimeZone(value) || 'Use an IANA time zone name, such as America/New_York or Europe/London.'
+
+const validateClassLink: Validate<string> = (value) => {
+  if (!value) return 'Add the class link.'
+  try {
+    const url = new URL(value)
+    return url.protocol === 'https:' || url.protocol === 'http:' ? true : 'Use a web link starting with https://.'
+  } catch {
+    return 'Use a full web link, such as https://zoom.us/j/123.'
+  }
+}
+
+/**
+ * A session's class link is readable by admins, and by learners actively
+ * enrolled in this offering from 24 hours before the start until the end
+ * (PRD §5.2, §5.3). Evaluated per session row, at read time; never stored.
+ */
+const canReadClassLink: FieldAccess = async ({ req, doc, siblingData }) => {
+  if (userIsAdmin(req.user)) return true
+  const session = siblingData as { startsAt?: string; endsAt?: string } | undefined
+  if (!req.user || !doc?.id || !session?.startsAt || !session.endsAt) return false
+  if (classLinkWindow({ startsAt: session.startsAt, endsAt: session.endsAt }) !== 'open') return false
+  return hasOfferingAccess(req.payload, req.user, String(doc.id), req)
+}
+
+/** `accessEndsAt` = latest session end + 6 calendar months (UTC), null without sessions. */
+const computeAccessEndsAt: CollectionBeforeChangeHook = ({ data, originalDoc }) => {
+  const sessions = data.sessions ?? originalDoc?.sessions
+  return { ...data, accessEndsAt: accessEndsAt(sessions) }
+}
+
+/**
+ * When sessions move `accessEndsAt`, every enrollment in the offering follows
+ * (PRD §5.2). Seat pools' `claimDeadline` joins this in DEV-99.
+ */
+const recomputeEnrollmentAccess: CollectionAfterChangeHook = async ({ doc, previousDoc, operation, req }) => {
+  if (operation !== 'update') return doc
+  const before = previousDoc?.accessEndsAt ? new Date(previousDoc.accessEndsAt).toISOString() : null
+  const after = doc.accessEndsAt ? new Date(doc.accessEndsAt).toISOString() : null
+  if (before === after) return doc
+
+  const { docs: enrollments } = await req.payload.find({
+    collection: 'enrollments',
+    where: { offering: { equals: doc.id } },
+    select: { createdAt: true },
+    pagination: false,
+    depth: 0,
+    overrideAccess: true,
+    req,
+  })
+  for (const enrollment of enrollments) {
+    await req.payload.update({
+      collection: 'enrollments',
+      id: enrollment.id,
+      data: { accessExpiresAt: enrollmentExpiresAt(after, enrollment.createdAt) },
+      overrideAccess: true,
+      req,
+    })
+  }
+  return doc
+}
+
 /** A scheduled, sellable run of a course. Price lives here, not on the course (PRD §3.1). */
 export const Offerings: CollectionConfig = {
   slug: 'offerings',
@@ -44,6 +122,10 @@ export const Offerings: CollectionConfig = {
     create: isAdmin,
     update: isAdmin,
     delete: isAdmin,
+  },
+  hooks: {
+    beforeChange: [computeAccessEndsAt],
+    afterChange: [recomputeEnrollmentAccess],
   },
   fields: [
     { name: 'title', type: 'text', required: true, admin: { description: 'For example, "November 2026 cohort".' } },
@@ -96,6 +178,51 @@ export const Offerings: CollectionConfig = {
           options: [{ label: 'USD', value: 'usd' }],
         },
       ],
+    },
+    {
+      name: 'sessions',
+      type: 'array',
+      admin: { description: 'Live sessions. Enrolled learners see the class link from 24 hours before each start.' },
+      fields: [
+        { name: 'title', type: 'text', required: true },
+        {
+          type: 'row',
+          fields: [
+            { name: 'startsAt', type: 'date', required: true, admin: { date: { pickerAppearance: 'dayAndTime' } } },
+            {
+              name: 'endsAt',
+              type: 'date',
+              required: true,
+              validate: validateEndsAt,
+              admin: { date: { pickerAppearance: 'dayAndTime' } },
+            },
+            {
+              name: 'timezone',
+              type: 'text',
+              required: true,
+              validate: validateTimeZone,
+              admin: { description: 'For display, e.g. America/New_York.' },
+            },
+          ],
+        },
+        {
+          name: 'classLink',
+          type: 'text',
+          required: true,
+          validate: validateClassLink,
+          access: { read: canReadClassLink },
+          admin: { description: 'Zoom, Meet or similar.' },
+        },
+      ],
+    },
+    {
+      name: 'accessEndsAt',
+      type: 'date',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Last session end + 6 months. Enrollments in this offering expire then.',
+      },
     },
   ],
 }
