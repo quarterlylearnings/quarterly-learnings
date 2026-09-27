@@ -303,6 +303,16 @@ export interface Enrollment {
    * Lessons lock after this date.
    */
   accessExpiresAt: string;
+  /**
+   * Lessons the learner has marked complete. Learners change this only from the lesson page.
+   */
+  progress?:
+    | {
+        lesson: string | Lesson;
+        completedAt: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -496,6 +506,13 @@ export interface EnrollmentsSelect<T extends boolean = true> {
   source?: T;
   status?: T;
   accessExpiresAt?: T;
+  progress?:
+    | T
+    | {
+        lesson?: T;
+        completedAt?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

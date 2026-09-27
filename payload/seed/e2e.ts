@@ -24,12 +24,17 @@ export const e2eUsers = {
   quizTaker: { email: 'quiz-taker@example.com', name: 'Quiz Taker' },
   /** Logs in with an off-site ?next= (auth.spec). `learner` takes the wrong-password attempt. */
   offsiteNext: { email: 'offsite-next@example.com', name: 'Offsite Next' },
+  /** Enrolled; marks lessons complete in e2e. */
+  progressLearner: { email: 'progress-learner@example.com', name: 'Progress Learner' },
+  /** Logged in, not enrolled; reads the preview lesson. */
+  previewReader: { email: 'preview-reader@example.com', name: 'Preview Reader' },
 } as const
 
 /** Days from seeding until each seeded learner's access ends. */
 export const e2eEnrollments = {
   enrolled: { expiresInDays: 90 },
   quizTaker: { expiresInDays: 90 },
+  progressLearner: { expiresInDays: 90 },
   expired: { expiresInDays: -3 },
 } as const
 
@@ -149,7 +154,7 @@ export async function seedE2E(payload: Payload): Promise<E2EFixtureIds> {
   // First user created becomes admin (Users beforeChange hook).
   await payload.create({ collection: 'users', data: { ...e2eUsers.admin, password: E2E_PASSWORD, role: 'admin' } })
   const learners = {} as Record<Exclude<keyof typeof e2eUsers, 'admin'>, string>
-  for (const key of ['learner', 'panelProbe', 'enrolled', 'expired', 'unenrolled', 'quizTaker', 'offsiteNext'] as const) {
+  for (const key of Object.keys(e2eUsers).filter((key) => key !== 'admin') as Exclude<keyof typeof e2eUsers, 'admin'>[]) {
     const user = await payload.create({
       collection: 'users',
       data: { ...e2eUsers[key], password: E2E_PASSWORD, role: 'learner' },
