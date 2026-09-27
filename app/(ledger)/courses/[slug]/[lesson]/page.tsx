@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { ArrowLeft, ArrowRight, Lock } from 'lucide-react'
 import NextLink from 'next/link'
 import { notFound } from 'next/navigation'
+import { CompleteLessonButton } from '@/components/ledger/CompleteLessonButton'
 import { RichTextRenderer } from '@/components/ledger/RichTextRenderer'
 import { Container } from '@/components/layout/Container'
 import { Body } from '@/components/typography/Body'
@@ -13,7 +14,9 @@ import { Link } from '@/components/ui/Link'
 import { getCourseBySlug, getLesson, getOutline, type OutlineLesson } from '@/lib/ledger/courses'
 import { formatDate } from '@/lib/ledger/format'
 import { getViewer } from '@/lib/ledger/payload'
+import { markLessonCompleteAction } from '@/app/(ledger)/courses/actions'
 import { courseAccess } from '@/payload/access/hasCourseAccess'
+import { isLessonComplete } from '@/payload/progress/progress'
 import { latestQuizResults } from '@/payload/quiz/grade'
 import type { Course } from '@/payload-types'
 
@@ -44,6 +47,9 @@ export default async function LessonPage({ params }: Props) {
   const index = outline.findIndex((item) => item.id === lesson.id)
   const previous = index > 0 ? outline[index - 1] : undefined
   const next = index >= 0 ? outline[index + 1] : undefined
+  // Access decides the locked state and whether progress can be tracked (PRD §10).
+  const access = user ? await courseAccess(payload, user, course.id) : null
+  const canTrack = access?.state === 'active'
 
   return (
     <Container className="py-16">
@@ -64,17 +70,27 @@ export default async function LessonPage({ params }: Props) {
         </div>
 
         {lesson.content ? (
-          <RichTextRenderer
-            content={lesson.content}
-            lessonId={lesson.id}
-            quizResults={await latestQuizResults(payload, user, lesson.id)}
-          />
+          <>
+            <RichTextRenderer
+              content={lesson.content}
+              lessonId={lesson.id}
+              quizResults={await latestQuizResults(payload, user, lesson.id)}
+            />
+            {canTrack && (
+              <div className="mt-12">
+                <CompleteLessonButton
+                  complete={markLessonCompleteAction.bind(null, lesson.id)}
+                  initiallyCompleted={await isLessonComplete(payload, user, course.id, lesson.id)}
+                />
+              </div>
+            )}
+          </>
         ) : (
           <LockedLesson
             course={course}
             coursePath={coursePath}
             lessonPath={lessonPath}
-            access={user ? await courseAccess(payload, user, course.id) : null}
+            access={access}
           />
         )}
 

@@ -88,5 +88,14 @@ export const Enrollments: CollectionConfig = {
         description: 'Lessons lock after this date.',
       },
     },
+    {
+      name: 'progress',
+      type: 'array',
+      admin: { description: 'Lessons the learner has marked complete. Learners change this only from the lesson page.' },
+      fields: [
+        { name: 'lesson', type: 'relationship', relationTo: 'lessons', required: true },
+        { name: 'completedAt', type: 'date', required: true },
+      ],
+    },
   ],
 }

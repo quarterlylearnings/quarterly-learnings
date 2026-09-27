@@ -20,6 +20,9 @@ export function LedgerAuthLinks({ signedIn }: { signedIn: boolean }) {
   }
   return (
     <>
+      <NextLink href="/progress" className={linkClass}>
+        Progress
+      </NextLink>
       <NextLink href="/account" className={linkClass}>
         Account
       </NextLink>
