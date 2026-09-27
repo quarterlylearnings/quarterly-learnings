@@ -72,6 +72,7 @@ export interface Config {
     lessons: Lesson;
     offerings: Offering;
     enrollments: Enrollment;
+    'quiz-attempts': QuizAttempt;
     media: Media;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -85,6 +86,7 @@ export interface Config {
     lessons: LessonsSelect<false> | LessonsSelect<true>;
     offerings: OfferingsSelect<false> | OfferingsSelect<true>;
     enrollments: EnrollmentsSelect<false> | EnrollmentsSelect<true>;
+    'quiz-attempts': QuizAttemptsSelect<false> | QuizAttemptsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -306,6 +308,20 @@ export interface Enrollment {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quiz-attempts".
+ */
+export interface QuizAttempt {
+  id: string;
+  learner: string | User;
+  lesson: string | Lesson;
+  quizBlockId: string;
+  selectedIndex: number;
+  correct: boolean;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -347,6 +363,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'enrollments';
         value: string | Enrollment;
+      } | null)
+    | ({
+        relationTo: 'quiz-attempts';
+        value: string | QuizAttempt;
       } | null)
     | ({
         relationTo: 'media';
@@ -481,6 +501,19 @@ export interface EnrollmentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quiz-attempts_select".
+ */
+export interface QuizAttemptsSelect<T extends boolean = true> {
+  learner?: T;
+  lesson?: T;
+  quizBlockId?: T;
+  selectedIndex?: T;
+  correct?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -574,6 +607,28 @@ export interface CodeBlockFields {
   id?: string | null;
   blockName?: string | null;
   blockType: 'codeBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuizBlockFields".
+ */
+export interface QuizBlockFields {
+  question: string;
+  options: {
+    text: string;
+    id?: string | null;
+  }[];
+  /**
+   * Position of the correct option, counting from 0 (the first option is 0).
+   */
+  correctIndex: number;
+  /**
+   * Shown after the learner checks an answer.
+   */
+  explanation?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'quizBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

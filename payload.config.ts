@@ -11,6 +11,7 @@ import { Enrollments } from './payload/collections/Enrollments.ts'
 import { Lessons } from './payload/collections/Lessons.ts'
 import { Media } from './payload/collections/Media.ts'
 import { Offerings } from './payload/collections/Offerings.ts'
+import { QuizAttempts } from './payload/collections/QuizAttempts.ts'
 import { Users } from './payload/collections/Users.ts'
 import { mediaStorage } from './payload/storage.ts'
 
@@ -31,7 +32,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Users, Courses, Lessons, Offerings, Enrollments, Media],
+  collections: [Users, Courses, Lessons, Offerings, Enrollments, QuizAttempts, Media],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
